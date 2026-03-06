@@ -284,7 +284,7 @@ export async function saveAcademicProfile(formData: FormData) {
         grading_scale: gradingScale,
         gpa_converted: gpaConverted,
         intended_majors: intendedMajors,
-    });
+    }, { onConflict: "user_id" });
 
     if (error) return { error: error.message };
 
