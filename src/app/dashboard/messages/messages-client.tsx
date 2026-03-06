@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo, Fragment } from "react";
 import { createClient } from "@/lib/supabase/client";
 import "./messages.css";
 
@@ -674,7 +674,7 @@ export default function MessagesClient({ userId, contacts: initialContacts, clas
                                     const isGroup = activeChat.type === "group";
 
                                     return (
-                                        <div key={msg.id} style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                                        <Fragment key={msg.id}>
                                             {timeDivider && (
                                                 <div className="msg-time-divider">
                                                     <div className="msg-time-divider-line" />
@@ -682,7 +682,10 @@ export default function MessagesClient({ userId, contacts: initialContacts, clas
                                                     <div className="msg-time-divider-line" />
                                                 </div>
                                             )}
-                                            <div className={`msg-bubble-wrap ${isMine ? "msg-bubble-wrap--mine" : isGroup ? "msg-bubble-wrap--group-theirs" : "msg-bubble-wrap--theirs"}`}>
+                                            <div
+                                                className={`msg-bubble-wrap ${isMine ? "msg-bubble-wrap--mine" : isGroup ? "msg-bubble-wrap--group-theirs" : "msg-bubble-wrap--theirs"}`}
+                                                style={isMine ? { marginLeft: 'auto', alignSelf: 'flex-end' } : {}}
+                                            >
                                                 {isGroup && !isMine && (
                                                     <div className="msg-bubble-group-avatar">
                                                         {(msg.sender_name || getContactName(msg.sender_id)).charAt(0).toUpperCase()}
@@ -722,7 +725,7 @@ export default function MessagesClient({ userId, contacts: initialContacts, clas
                                                     </div>
                                                 )}
                                             </div>
-                                        </div>
+                                        </Fragment>
                                     );
                                 })}
 
