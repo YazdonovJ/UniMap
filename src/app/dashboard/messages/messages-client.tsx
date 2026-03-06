@@ -228,11 +228,15 @@ export default function MessagesClient({ userId, contacts: initialContacts, clas
 
         // Fetch persisted group messages
         async function fetchGroupMessages() {
-            const { data } = await supabase
+            const { data, error } = await supabase
                 .from("messages")
                 .select("*, sender:profiles!sender_id(full_name)")
                 .eq("receiver_id", groupId)
                 .order("created_at", { ascending: true });
+
+            if (error) {
+                console.error("Failed to fetch group messages:", error);
+            }
 
             // Map the joined profile name into sender_name for rendering
             const mappedData = (data || []).map((msg: MessageItem & { sender?: { full_name: string } }) => ({
@@ -309,41 +313,50 @@ export default function MessagesClient({ userId, contacts: initialContacts, clas
         if (!newMessage.trim() || !activeChat) return;
         setSending(true);
 
-        if (activeChat.type === "dm") {
-            const { data } = await supabase
-                .from("messages")
-                .insert({
-                    sender_id: userId,
-                    receiver_id: activeChat.contact.id,
-                    content: newMessage.trim(),
-                })
-                .select().single();
-            if (data) setMessages(prev => [...prev, data]);
-        } else {
-            // Group message: store in DB + broadcast
-            const { data } = await supabase
-                .from("messages")
-                .insert({
-                    sender_id: userId,
-                    receiver_id: activeChat.group.id,
-                    content: newMessage.trim(),
-                })
-                .select().single();
+        try {
+            if (activeChat.type === "dm") {
+                const { data, error } = await supabase
+                    .from("messages")
+                    .insert({
+                        sender_id: userId,
+                        receiver_id: activeChat.contact.id,
+                        content: newMessage.trim(),
+                    })
+                    .select().single();
 
-            if (data) {
-                const msgWithName = { ...data, sender_name: "You" };
-                setGroupMessages(prev => [...prev, msgWithName]);
+                if (error) throw error;
+                if (data) setMessages(prev => [...prev, data]);
+            } else {
+                // Group message: store in DB + broadcast
+                const { data, error } = await supabase
+                    .from("messages")
+                    .insert({
+                        sender_id: userId,
+                        receiver_id: activeChat.group.id,
+                        content: newMessage.trim(),
+                    })
+                    .select().single();
 
-                supabase.channel(`group-${activeChat.group.id}`).send({
-                    type: "broadcast",
-                    event: "group-message",
-                    payload: msgWithName,
-                });
+                if (error) throw error;
+
+                if (data) {
+                    const msgWithName = { ...data, sender_name: "You" };
+                    setGroupMessages(prev => [...prev, msgWithName]);
+
+                    supabase.channel(`group-${activeChat.group.id}`).send({
+                        type: "broadcast",
+                        event: "group-message",
+                        payload: msgWithName,
+                    });
+                }
             }
+        } catch (err: any) {
+            console.error("Message send error:", err);
+            alert(`Failed to send message: ${err.message || JSON.stringify(err)}`);
+        } finally {
+            setNewMessage("");
+            setSending(false);
         }
-
-        setNewMessage("");
-        setSending(false);
     }
 
     function sendQuickReply(text: string) {
