@@ -17,9 +17,9 @@ export const metadata: Metadata = {
   description:
     "An exclusive platform for international students to strategically plan, organize, and execute their university applications to the world's most selective institutions.",
   icons: {
-    icon: "/unimap-logo.jpeg",
-    shortcut: "/unimap-logo.jpeg",
-    apple: "/unimap-logo.jpeg",
+    icon: "/unimap-logo.png",
+    shortcut: "/unimap-logo.png",
+    apple: "/unimap-logo.png",
   },
   keywords: [
     "university applications",
