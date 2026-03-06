@@ -674,7 +674,7 @@ export default function MessagesClient({ userId, contacts: initialContacts, clas
                                     const isGroup = activeChat.type === "group";
 
                                     return (
-                                        <div key={msg.id}>
+                                        <div key={msg.id} style={{ display: "flex", flexDirection: "column", width: "100%" }}>
                                             {timeDivider && (
                                                 <div className="msg-time-divider">
                                                     <div className="msg-time-divider-line" />
