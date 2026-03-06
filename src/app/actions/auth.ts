@@ -4,6 +4,7 @@ import { randomBytes } from "crypto";
 import { createClient } from "@/lib/supabase/server";
 import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
+import { getURL } from "@/lib/utils";
 
 type Role = "admin" | "counselor" | "alumni";
 
@@ -54,6 +55,7 @@ export async function signUp(formData: FormData) {
         password,
         options: {
             data: { full_name: fullName },
+            emailRedirectTo: `${getURL()}auth/callback`,
         },
     });
 
