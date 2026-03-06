@@ -1,7 +1,10 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Explicitly bypass Turbopack for production builds due to Vercel caching bugs with static assets
+  webpack: (config, { dev, isServer }) => {
+    return config;
+  },
 };
 
 export default nextConfig;
