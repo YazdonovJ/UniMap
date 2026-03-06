@@ -1308,3 +1308,24 @@
 .auth-orb[data-left="100"] { left: 100% !important; }
 .auth-orb[data-right="100"] { right: 100% !important; }
 .auth-orb[data-size="100"], .spotlight[data-size="100"] { --size: 100px; }
+
+/* Success message */
+.auth-success {
+    background: rgba(34, 197, 94, 0.1) !important;
+    border: 1px solid rgba(34, 197, 94, 0.2) !important;
+    color: #22c55e !important;
+    padding: 12px 16px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    font-size: 0.87rem;
+    font-weight: 500;
+    animation: auth-slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes auth-slide-up {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}

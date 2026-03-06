@@ -171,18 +171,7 @@ export default function SignupPage() {
                         )}
 
                         {success && (
-                            <div className="auth-success" style={{
-                                backgroundColor: "rgba(34, 197, 94, 0.1)",
-                                border: "1px solid rgba(34, 197, 94, 0.2)",
-                                color: "#22c55e",
-                                padding: "12px",
-                                borderRadius: "8px",
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "8px",
-                                marginBottom: "16px",
-                                fontSize: "14px"
-                            }}>
+                            <div className="auth-success">
                                 <SparklesIcon />
                                 <span>{success}</span>
                             </div>
