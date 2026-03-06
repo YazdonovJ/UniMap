@@ -340,8 +340,21 @@ export default function MessagesClient({ userId, contacts: initialContacts, clas
                 if (error) throw error;
 
                 if (data) {
-                    const msgWithName = { ...data, sender_name: "You" };
-                    setGroupMessages(prev => [...prev, msgWithName]);
+                    // Try to find the user's real name to broadcast to others
+                    let myName = "Unknown";
+
+                    // We might be in the contacts or allUsers list
+                    const meInContacts = contacts.find(c => c.id === userId);
+                    const meInAllUsers = allUsers.find(c => c.id === userId);
+
+                    if (meInContacts) myName = meInContacts.full_name;
+                    else if (meInAllUsers) myName = meInAllUsers.full_name;
+
+                    const msgWithName = { ...data, sender_name: myName };
+
+                    // For local display, we can override with "You" visually in render, 
+                    // but we must broadcast our real name to everyone else
+                    setGroupMessages(prev => [...prev, { ...data, sender_name: "You" }]);
 
                     supabase.channel(`group-${activeChat.group.id}`).send({
                         type: "broadcast",
