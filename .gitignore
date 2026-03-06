@@ -39,3 +39,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# antigravity
+.gemini/
+.agents/
+.agent/
+_agents/
+_agent/
+
+# logs
+*.log
+/test-results/
+puppet.js
+test.js
+fetch_turkey_titles.py

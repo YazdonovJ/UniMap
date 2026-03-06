@@ -1,0 +1,1310 @@
+/* ─── Auth Pages – Premium 3D Experience ─── */
+
+/* Layout */
+.auth-page {
+    position: relative;
+    min-height: 100dvh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+    background: #0b0e17;
+}
+
+/* ─── Left Panel – Immersive 3D Scene ─── */
+.auth-scene {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background:
+        radial-gradient(ellipse 120% 80% at 30% 50%, rgba(169, 29, 46, 0.18), transparent 60%),
+        radial-gradient(ellipse 100% 100% at 70% 20%, rgba(245, 197, 24, 0.08), transparent 50%),
+        linear-gradient(160deg, #0d1020 0%, #111628 50%, #0b0e18 100%);
+}
+
+/* Grid overlay */
+.auth-scene::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+    background-size: 50px 50px;
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, black 10%, transparent 70%);
+    mask-image: radial-gradient(circle at 50% 50%, black 10%, transparent 70%);
+    pointer-events: none;
+}
+
+/* 3D Floating Orbs */
+.auth-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(1px);
+    pointer-events: none;
+    will-change: transform;
+}
+
+.auth-orb--primary {
+    width: clamp(280px, 22vw, 380px);
+    height: clamp(280px, 22vw, 380px);
+    background: radial-gradient(circle at 35% 35%,
+            rgba(220, 50, 65, 0.6),
+            rgba(169, 29, 46, 0.35) 45%,
+            transparent 70%);
+    box-shadow:
+        0 0 80px 20px rgba(169, 29, 46, 0.2),
+        inset 0 0 60px rgba(255, 100, 120, 0.15);
+    animation: orbFloat1 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.auth-orb--secondary {
+    width: clamp(180px, 14vw, 240px);
+    height: clamp(180px, 14vw, 240px);
+    background: radial-gradient(circle at 40% 30%,
+            rgba(245, 197, 24, 0.5),
+            rgba(245, 180, 24, 0.2) 50%,
+            transparent 70%);
+    box-shadow:
+        0 0 60px 15px rgba(245, 197, 24, 0.12),
+        inset 0 0 40px rgba(255, 220, 100, 0.1);
+    animation: orbFloat2 16s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.auth-orb--accent {
+    width: clamp(100px, 8vw, 140px);
+    height: clamp(100px, 8vw, 140px);
+    background: radial-gradient(circle at 50% 40%,
+            rgba(100, 140, 255, 0.4),
+            rgba(80, 120, 255, 0.15) 50%,
+            transparent 70%);
+    box-shadow:
+        0 0 40px 10px rgba(100, 140, 255, 0.1);
+    animation: orbFloat3 20s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Floating particles */
+.auth-particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+    animation: particleFloat 8s ease-in-out infinite;
+}
+
+.auth-particle:nth-child(1) {
+    top: 15%;
+    left: 20%;
+    animation-delay: 0s;
+    animation-duration: 7s;
+}
+
+.auth-particle:nth-child(2) {
+    top: 30%;
+    left: 70%;
+    animation-delay: 1.5s;
+    animation-duration: 9s;
+    width: 2px;
+    height: 2px;
+}
+
+.auth-particle:nth-child(3) {
+    top: 60%;
+    left: 35%;
+    animation-delay: 3s;
+    animation-duration: 11s;
+}
+
+.auth-particle:nth-child(4) {
+    top: 75%;
+    left: 80%;
+    animation-delay: 0.5s;
+    animation-duration: 8s;
+    width: 4px;
+    height: 4px;
+}
+
+.auth-particle:nth-child(5) {
+    top: 45%;
+    left: 50%;
+    animation-delay: 2s;
+    animation-duration: 10s;
+    width: 2px;
+    height: 2px;
+}
+
+.auth-particle:nth-child(6) {
+    top: 85%;
+    left: 15%;
+    animation-delay: 4s;
+    animation-duration: 12s;
+}
+
+.auth-particle:nth-child(7) {
+    top: 20%;
+    left: 90%;
+    animation-delay: 1s;
+    animation-duration: 6s;
+    width: 2px;
+    height: 2px;
+}
+
+.auth-particle:nth-child(8) {
+    top: 50%;
+    left: 10%;
+    animation-delay: 3.5s;
+    animation-duration: 9s;
+}
+
+/* Scene branding */
+.auth-scene-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 2rem;
+    max-width: 420px;
+}
+
+.auth-scene-logo {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    margin-bottom: 1.5rem;
+    animation: logoEntrance 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
+}
+
+.auth-scene-logo img,
+.auth-scene-logo svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.auth-scene-title {
+    font-family: var(--font-sora), "Sora", sans-serif;
+    font-size: clamp(2rem, 3vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+    margin-bottom: 0.75rem;
+    animation: textReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.5s both;
+}
+
+.auth-scene-title span {
+    display: block;
+    background: linear-gradient(135deg, #ff6b7a 0%, #f5c518 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.auth-scene-description {
+    font-size: clamp(0.95rem, 1.2vw, 1.1rem);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.5);
+    animation: textReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.65s both;
+}
+
+/* ─── Right Panel – Form ─── */
+.auth-form-panel {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: #fff;
+}
+
+/* Glassmorphism card */
+.auth-card {
+    width: 100%;
+    max-width: 440px;
+    background: #fff;
+    border: none;
+    border-radius: 0;
+    padding: clamp(2rem, 4vw, 2.75rem);
+    box-shadow: none;
+    transform-style: preserve-3d;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    animation: cardEntrance 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+}
+
+/* Card spotlight effect */
+.auth-card-spotlight {
+    position: absolute;
+    inset: 0;
+    border-radius: 28px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+.auth-card:hover .auth-card-spotlight {
+    opacity: 1;
+}
+
+/* Form header */
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+.auth-header-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #fef2f3, #fff);
+    border: 1px solid rgba(169, 29, 46, 0.1);
+    margin-bottom: 1.25rem;
+    color: #a91d2e;
+}
+
+.auth-header-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.auth-title {
+    font-family: var(--font-sora), "Sora", sans-serif;
+    font-size: clamp(1.5rem, 2.5vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #0b1224;
+    margin-bottom: 0.5rem;
+}
+
+.auth-subtitle {
+    font-size: 0.93rem;
+    color: #6b778f;
+    line-height: 1.5;
+}
+
+/* Form fields */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    z-index: 1;
+}
+
+.auth-field {
+    position: relative;
+}
+
+.auth-field-label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #3d4a63;
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.01em;
+}
+
+.auth-field-input-wrap {
+    position: relative;
+}
+
+.auth-field-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3b4;
+    display: flex;
+    align-items: center;
+    transition: color 0.25s ease;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.auth-field-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.auth-field-input {
+    width: 100%;
+    height: 50px;
+    padding: 0 16px 0 46px;
+    border-radius: 14px;
+    border: 1.5px solid rgba(0, 0, 0, 0.08);
+    background: rgba(248, 249, 252, 0.8);
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: #0b1224;
+    outline: none;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.auth-field-input::placeholder {
+    color: #a0a8b8;
+}
+
+.auth-field-input:hover {
+    border-color: rgba(0, 0, 0, 0.12);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.auth-field-input:focus {
+    border-color: rgba(169, 29, 46, 0.4);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(169, 29, 46, 0.08);
+}
+
+.auth-field-input:focus~.auth-field-icon,
+.auth-field-input:focus+.auth-field-icon {
+    color: #a91d2e;
+}
+
+.auth-field:focus-within .auth-field-icon {
+    color: #a91d2e;
+}
+
+/* Error message */
+.auth-error {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(255, 240, 240, 0.9), rgba(255, 245, 245, 0.95));
+    border: 1px solid rgba(220, 60, 60, 0.15);
+    color: #c23030;
+    font-size: 0.87rem;
+    font-weight: 500;
+    animation: shakeError 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.auth-error svg {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+}
+
+/* Submit button */
+.auth-submit {
+    position: relative;
+    width: 100%;
+    height: 52px;
+    border: none;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #d63a43, #a91d2e 60%, #8a1725);
+    color: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    overflow: hidden;
+    margin-top: 0.5rem;
+    transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow:
+        0 12px 28px -8px rgba(169, 29, 46, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.auth-submit::before {
+    content: "";
+    position: absolute;
+    inset: -100%;
+    background: linear-gradient(115deg,
+            transparent 40%,
+            rgba(255, 255, 255, 0.25) 50%,
+            transparent 60%);
+    transform: translateX(-60%);
+    transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+}
+
+.auth-submit:hover::before {
+    transform: translateX(60%);
+}
+
+.auth-submit:hover {
+    transform: translateY(-1px);
+    box-shadow:
+        0 16px 36px -8px rgba(169, 29, 46, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.auth-submit:active {
+    transform: translateY(0) scale(0.99);
+}
+
+.auth-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.auth-submit-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Spinner */
+.auth-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+/* Divider */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0.25rem 0;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: rgba(0, 0, 0, 0.07);
+}
+
+.auth-divider span {
+    font-size: 0.78rem;
+    color: #9ca3b4;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+/* Footer link */
+.auth-footer {
+    text-align: center;
+    margin-top: 1.75rem;
+    font-size: 0.9rem;
+    color: #6b778f;
+    position: relative;
+    z-index: 1;
+}
+
+.auth-footer a {
+    color: #a91d2e;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    position: relative;
+}
+
+.auth-footer a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 100%;
+    height: 1.5px;
+    background: #a91d2e;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.auth-footer a:hover {
+    color: #8a1725;
+}
+
+.auth-footer a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+/* ─── Keyframes ─── */
+@keyframes orbFloat1 {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    25% {
+        transform: translate3d(30px, -40px, 20px) scale(1.05);
+    }
+
+    50% {
+        transform: translate3d(-20px, 20px, -10px) scale(0.95);
+    }
+
+    75% {
+        transform: translate3d(15px, 30px, 15px) scale(1.02);
+    }
+}
+
+@keyframes orbFloat2 {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    25% {
+        transform: translate3d(-25px, 30px, -15px) scale(0.97);
+    }
+
+    50% {
+        transform: translate3d(35px, -20px, 25px) scale(1.04);
+    }
+
+    75% {
+        transform: translate3d(-15px, -35px, 10px) scale(0.98);
+    }
+}
+
+@keyframes orbFloat3 {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate3d(20px, 25px, -20px) scale(1.06);
+    }
+
+    66% {
+        transform: translate3d(-30px, -15px, 15px) scale(0.94);
+    }
+}
+
+@keyframes particleFloat {
+
+    0%,
+    100% {
+        transform: translate3d(0, 0, 0);
+        opacity: 0.3;
+    }
+
+    25% {
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: translate3d(15px, -25px, 10px);
+        opacity: 0.5;
+    }
+
+    75% {
+        opacity: 0.8;
+    }
+}
+
+@keyframes cardEntrance {
+    from {
+        opacity: 0;
+        transform: perspective(1200px) translateY(30px) rotateX(4deg) scale(0.96);
+        filter: blur(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: perspective(1200px) translateY(0) rotateX(0deg) scale(1);
+        filter: blur(0);
+    }
+}
+
+@keyframes logoEntrance {
+    from {
+        opacity: 0;
+        transform: scale(0.5) rotate(-10deg);
+        filter: blur(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+        filter: blur(0);
+    }
+}
+
+@keyframes textReveal {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+        filter: blur(6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes shakeError {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    15% {
+        transform: translateX(-6px);
+    }
+
+    30% {
+        transform: translateX(5px);
+    }
+
+    45% {
+        transform: translateX(-4px);
+    }
+
+    60% {
+        transform: translateX(3px);
+    }
+
+    75% {
+        transform: translateX(-2px);
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ─── Responsive ─── */
+@media (max-width: 1024px) {
+    .auth-page {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
+    }
+
+    .auth-scene {
+        min-height: 260px;
+        padding: 2.5rem 1.5rem;
+    }
+
+    .auth-scene-title {
+        font-size: 1.6rem;
+    }
+
+    .auth-orb--primary {
+        width: 200px;
+        height: 200px;
+    }
+
+    .auth-orb--secondary {
+        width: 140px;
+        height: 140px;
+    }
+
+    .auth-orb--accent {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 640px) {
+    .auth-page {
+        background: linear-gradient(180deg, #0b0e17 0%, #0b0e17 30%, #fff 30%, #fff 100%);
+    }
+
+    .auth-scene {
+        min-height: 200px;
+        padding: 2rem 1.25rem;
+    }
+
+    .auth-scene-logo {
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        margin-bottom: 1rem;
+    }
+
+    .auth-scene-logo svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .auth-scene-title {
+        font-size: 1.35rem;
+    }
+
+    .auth-scene-description {
+        font-size: 0.88rem;
+    }
+
+    .auth-form-panel {
+        padding: 1.25rem;
+        align-items: flex-start;
+    }
+
+    .auth-card {
+        padding: 1.75rem;
+        border-radius: 22px;
+        margin-top: -2rem;
+    }
+
+    .auth-field-input {
+        height: 48px;
+    }
+
+    .auth-submit {
+        height: 48px;
+    }
+}
+/* Data Attribute Support for Dynamic Styles */
+.auth-orb[data-top] { top: var(--top) !important; }
+.auth-orb[data-left] { left: var(--left) !important; }
+.auth-orb[data-bottom] { bottom: var(--bottom) !important; }
+.auth-orb[data-right] { right: var(--right) !important; }
+
+.auth-card[data-tilt] {
+    transform: perspective(1200px) rotateX(var(--rtX)) rotateY(var(--rtY)) scale(1.01) !important;
+}
+
+.auth-card-spotlight[data-spotlight] {
+    background: radial-gradient(circle at var(--slX) var(--slY), rgba(169, 29, 46, 0.06), transparent 50%) !important;
+    opacity: var(--slO) !important;
+}
+
+/* Onboarding specific (if imported) */
+.ob-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(to right, #A91D2E, #8b5cf6);
+    transition: width 0.5s ease-out;
+}
+
+/* Onboarding Progress Bar */
+.ob-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(to right, #A91D2E, #8b5cf6);
+    transition: width 0.5s ease-out;
+    width: var(--progress, 0%);
+}
+
+/* ── Data Attribute Support for Absolute Positioning ── */
+.auth-orb[data-top="0"] { top: 0% !important; }
+.auth-orb[data-bottom="0"] { bottom: 0% !important; }
+.auth-orb[data-left="0"] { left: 0% !important; }
+.auth-orb[data-right="0"] { right: 0% !important; }
+.auth-orb[data-size="0"], .spotlight[data-size="0"] { --size: 0px; }
+.auth-orb[data-top="1"] { top: 1% !important; }
+.auth-orb[data-bottom="1"] { bottom: 1% !important; }
+.auth-orb[data-left="1"] { left: 1% !important; }
+.auth-orb[data-right="1"] { right: 1% !important; }
+.auth-orb[data-size="1"], .spotlight[data-size="1"] { --size: 1px; }
+.auth-orb[data-top="2"] { top: 2% !important; }
+.auth-orb[data-bottom="2"] { bottom: 2% !important; }
+.auth-orb[data-left="2"] { left: 2% !important; }
+.auth-orb[data-right="2"] { right: 2% !important; }
+.auth-orb[data-size="2"], .spotlight[data-size="2"] { --size: 2px; }
+.auth-orb[data-top="3"] { top: 3% !important; }
+.auth-orb[data-bottom="3"] { bottom: 3% !important; }
+.auth-orb[data-left="3"] { left: 3% !important; }
+.auth-orb[data-right="3"] { right: 3% !important; }
+.auth-orb[data-size="3"], .spotlight[data-size="3"] { --size: 3px; }
+.auth-orb[data-top="4"] { top: 4% !important; }
+.auth-orb[data-bottom="4"] { bottom: 4% !important; }
+.auth-orb[data-left="4"] { left: 4% !important; }
+.auth-orb[data-right="4"] { right: 4% !important; }
+.auth-orb[data-size="4"], .spotlight[data-size="4"] { --size: 4px; }
+.auth-orb[data-top="5"] { top: 5% !important; }
+.auth-orb[data-bottom="5"] { bottom: 5% !important; }
+.auth-orb[data-left="5"] { left: 5% !important; }
+.auth-orb[data-right="5"] { right: 5% !important; }
+.auth-orb[data-size="5"], .spotlight[data-size="5"] { --size: 5px; }
+.auth-orb[data-top="6"] { top: 6% !important; }
+.auth-orb[data-bottom="6"] { bottom: 6% !important; }
+.auth-orb[data-left="6"] { left: 6% !important; }
+.auth-orb[data-right="6"] { right: 6% !important; }
+.auth-orb[data-size="6"], .spotlight[data-size="6"] { --size: 6px; }
+.auth-orb[data-top="7"] { top: 7% !important; }
+.auth-orb[data-bottom="7"] { bottom: 7% !important; }
+.auth-orb[data-left="7"] { left: 7% !important; }
+.auth-orb[data-right="7"] { right: 7% !important; }
+.auth-orb[data-size="7"], .spotlight[data-size="7"] { --size: 7px; }
+.auth-orb[data-top="8"] { top: 8% !important; }
+.auth-orb[data-bottom="8"] { bottom: 8% !important; }
+.auth-orb[data-left="8"] { left: 8% !important; }
+.auth-orb[data-right="8"] { right: 8% !important; }
+.auth-orb[data-size="8"], .spotlight[data-size="8"] { --size: 8px; }
+.auth-orb[data-top="9"] { top: 9% !important; }
+.auth-orb[data-bottom="9"] { bottom: 9% !important; }
+.auth-orb[data-left="9"] { left: 9% !important; }
+.auth-orb[data-right="9"] { right: 9% !important; }
+.auth-orb[data-size="9"], .spotlight[data-size="9"] { --size: 9px; }
+.auth-orb[data-top="10"] { top: 10% !important; }
+.auth-orb[data-bottom="10"] { bottom: 10% !important; }
+.auth-orb[data-left="10"] { left: 10% !important; }
+.auth-orb[data-right="10"] { right: 10% !important; }
+.auth-orb[data-size="10"], .spotlight[data-size="10"] { --size: 10px; }
+.auth-orb[data-top="11"] { top: 11% !important; }
+.auth-orb[data-bottom="11"] { bottom: 11% !important; }
+.auth-orb[data-left="11"] { left: 11% !important; }
+.auth-orb[data-right="11"] { right: 11% !important; }
+.auth-orb[data-size="11"], .spotlight[data-size="11"] { --size: 11px; }
+.auth-orb[data-top="12"] { top: 12% !important; }
+.auth-orb[data-bottom="12"] { bottom: 12% !important; }
+.auth-orb[data-left="12"] { left: 12% !important; }
+.auth-orb[data-right="12"] { right: 12% !important; }
+.auth-orb[data-size="12"], .spotlight[data-size="12"] { --size: 12px; }
+.auth-orb[data-top="13"] { top: 13% !important; }
+.auth-orb[data-bottom="13"] { bottom: 13% !important; }
+.auth-orb[data-left="13"] { left: 13% !important; }
+.auth-orb[data-right="13"] { right: 13% !important; }
+.auth-orb[data-size="13"], .spotlight[data-size="13"] { --size: 13px; }
+.auth-orb[data-top="14"] { top: 14% !important; }
+.auth-orb[data-bottom="14"] { bottom: 14% !important; }
+.auth-orb[data-left="14"] { left: 14% !important; }
+.auth-orb[data-right="14"] { right: 14% !important; }
+.auth-orb[data-size="14"], .spotlight[data-size="14"] { --size: 14px; }
+.auth-orb[data-top="15"] { top: 15% !important; }
+.auth-orb[data-bottom="15"] { bottom: 15% !important; }
+.auth-orb[data-left="15"] { left: 15% !important; }
+.auth-orb[data-right="15"] { right: 15% !important; }
+.auth-orb[data-size="15"], .spotlight[data-size="15"] { --size: 15px; }
+.auth-orb[data-top="16"] { top: 16% !important; }
+.auth-orb[data-bottom="16"] { bottom: 16% !important; }
+.auth-orb[data-left="16"] { left: 16% !important; }
+.auth-orb[data-right="16"] { right: 16% !important; }
+.auth-orb[data-size="16"], .spotlight[data-size="16"] { --size: 16px; }
+.auth-orb[data-top="17"] { top: 17% !important; }
+.auth-orb[data-bottom="17"] { bottom: 17% !important; }
+.auth-orb[data-left="17"] { left: 17% !important; }
+.auth-orb[data-right="17"] { right: 17% !important; }
+.auth-orb[data-size="17"], .spotlight[data-size="17"] { --size: 17px; }
+.auth-orb[data-top="18"] { top: 18% !important; }
+.auth-orb[data-bottom="18"] { bottom: 18% !important; }
+.auth-orb[data-left="18"] { left: 18% !important; }
+.auth-orb[data-right="18"] { right: 18% !important; }
+.auth-orb[data-size="18"], .spotlight[data-size="18"] { --size: 18px; }
+.auth-orb[data-top="19"] { top: 19% !important; }
+.auth-orb[data-bottom="19"] { bottom: 19% !important; }
+.auth-orb[data-left="19"] { left: 19% !important; }
+.auth-orb[data-right="19"] { right: 19% !important; }
+.auth-orb[data-size="19"], .spotlight[data-size="19"] { --size: 19px; }
+.auth-orb[data-top="20"] { top: 20% !important; }
+.auth-orb[data-bottom="20"] { bottom: 20% !important; }
+.auth-orb[data-left="20"] { left: 20% !important; }
+.auth-orb[data-right="20"] { right: 20% !important; }
+.auth-orb[data-size="20"], .spotlight[data-size="20"] { --size: 20px; }
+.auth-orb[data-top="21"] { top: 21% !important; }
+.auth-orb[data-bottom="21"] { bottom: 21% !important; }
+.auth-orb[data-left="21"] { left: 21% !important; }
+.auth-orb[data-right="21"] { right: 21% !important; }
+.auth-orb[data-size="21"], .spotlight[data-size="21"] { --size: 21px; }
+.auth-orb[data-top="22"] { top: 22% !important; }
+.auth-orb[data-bottom="22"] { bottom: 22% !important; }
+.auth-orb[data-left="22"] { left: 22% !important; }
+.auth-orb[data-right="22"] { right: 22% !important; }
+.auth-orb[data-size="22"], .spotlight[data-size="22"] { --size: 22px; }
+.auth-orb[data-top="23"] { top: 23% !important; }
+.auth-orb[data-bottom="23"] { bottom: 23% !important; }
+.auth-orb[data-left="23"] { left: 23% !important; }
+.auth-orb[data-right="23"] { right: 23% !important; }
+.auth-orb[data-size="23"], .spotlight[data-size="23"] { --size: 23px; }
+.auth-orb[data-top="24"] { top: 24% !important; }
+.auth-orb[data-bottom="24"] { bottom: 24% !important; }
+.auth-orb[data-left="24"] { left: 24% !important; }
+.auth-orb[data-right="24"] { right: 24% !important; }
+.auth-orb[data-size="24"], .spotlight[data-size="24"] { --size: 24px; }
+.auth-orb[data-top="25"] { top: 25% !important; }
+.auth-orb[data-bottom="25"] { bottom: 25% !important; }
+.auth-orb[data-left="25"] { left: 25% !important; }
+.auth-orb[data-right="25"] { right: 25% !important; }
+.auth-orb[data-size="25"], .spotlight[data-size="25"] { --size: 25px; }
+.auth-orb[data-top="26"] { top: 26% !important; }
+.auth-orb[data-bottom="26"] { bottom: 26% !important; }
+.auth-orb[data-left="26"] { left: 26% !important; }
+.auth-orb[data-right="26"] { right: 26% !important; }
+.auth-orb[data-size="26"], .spotlight[data-size="26"] { --size: 26px; }
+.auth-orb[data-top="27"] { top: 27% !important; }
+.auth-orb[data-bottom="27"] { bottom: 27% !important; }
+.auth-orb[data-left="27"] { left: 27% !important; }
+.auth-orb[data-right="27"] { right: 27% !important; }
+.auth-orb[data-size="27"], .spotlight[data-size="27"] { --size: 27px; }
+.auth-orb[data-top="28"] { top: 28% !important; }
+.auth-orb[data-bottom="28"] { bottom: 28% !important; }
+.auth-orb[data-left="28"] { left: 28% !important; }
+.auth-orb[data-right="28"] { right: 28% !important; }
+.auth-orb[data-size="28"], .spotlight[data-size="28"] { --size: 28px; }
+.auth-orb[data-top="29"] { top: 29% !important; }
+.auth-orb[data-bottom="29"] { bottom: 29% !important; }
+.auth-orb[data-left="29"] { left: 29% !important; }
+.auth-orb[data-right="29"] { right: 29% !important; }
+.auth-orb[data-size="29"], .spotlight[data-size="29"] { --size: 29px; }
+.auth-orb[data-top="30"] { top: 30% !important; }
+.auth-orb[data-bottom="30"] { bottom: 30% !important; }
+.auth-orb[data-left="30"] { left: 30% !important; }
+.auth-orb[data-right="30"] { right: 30% !important; }
+.auth-orb[data-size="30"], .spotlight[data-size="30"] { --size: 30px; }
+.auth-orb[data-top="31"] { top: 31% !important; }
+.auth-orb[data-bottom="31"] { bottom: 31% !important; }
+.auth-orb[data-left="31"] { left: 31% !important; }
+.auth-orb[data-right="31"] { right: 31% !important; }
+.auth-orb[data-size="31"], .spotlight[data-size="31"] { --size: 31px; }
+.auth-orb[data-top="32"] { top: 32% !important; }
+.auth-orb[data-bottom="32"] { bottom: 32% !important; }
+.auth-orb[data-left="32"] { left: 32% !important; }
+.auth-orb[data-right="32"] { right: 32% !important; }
+.auth-orb[data-size="32"], .spotlight[data-size="32"] { --size: 32px; }
+.auth-orb[data-top="33"] { top: 33% !important; }
+.auth-orb[data-bottom="33"] { bottom: 33% !important; }
+.auth-orb[data-left="33"] { left: 33% !important; }
+.auth-orb[data-right="33"] { right: 33% !important; }
+.auth-orb[data-size="33"], .spotlight[data-size="33"] { --size: 33px; }
+.auth-orb[data-top="34"] { top: 34% !important; }
+.auth-orb[data-bottom="34"] { bottom: 34% !important; }
+.auth-orb[data-left="34"] { left: 34% !important; }
+.auth-orb[data-right="34"] { right: 34% !important; }
+.auth-orb[data-size="34"], .spotlight[data-size="34"] { --size: 34px; }
+.auth-orb[data-top="35"] { top: 35% !important; }
+.auth-orb[data-bottom="35"] { bottom: 35% !important; }
+.auth-orb[data-left="35"] { left: 35% !important; }
+.auth-orb[data-right="35"] { right: 35% !important; }
+.auth-orb[data-size="35"], .spotlight[data-size="35"] { --size: 35px; }
+.auth-orb[data-top="36"] { top: 36% !important; }
+.auth-orb[data-bottom="36"] { bottom: 36% !important; }
+.auth-orb[data-left="36"] { left: 36% !important; }
+.auth-orb[data-right="36"] { right: 36% !important; }
+.auth-orb[data-size="36"], .spotlight[data-size="36"] { --size: 36px; }
+.auth-orb[data-top="37"] { top: 37% !important; }
+.auth-orb[data-bottom="37"] { bottom: 37% !important; }
+.auth-orb[data-left="37"] { left: 37% !important; }
+.auth-orb[data-right="37"] { right: 37% !important; }
+.auth-orb[data-size="37"], .spotlight[data-size="37"] { --size: 37px; }
+.auth-orb[data-top="38"] { top: 38% !important; }
+.auth-orb[data-bottom="38"] { bottom: 38% !important; }
+.auth-orb[data-left="38"] { left: 38% !important; }
+.auth-orb[data-right="38"] { right: 38% !important; }
+.auth-orb[data-size="38"], .spotlight[data-size="38"] { --size: 38px; }
+.auth-orb[data-top="39"] { top: 39% !important; }
+.auth-orb[data-bottom="39"] { bottom: 39% !important; }
+.auth-orb[data-left="39"] { left: 39% !important; }
+.auth-orb[data-right="39"] { right: 39% !important; }
+.auth-orb[data-size="39"], .spotlight[data-size="39"] { --size: 39px; }
+.auth-orb[data-top="40"] { top: 40% !important; }
+.auth-orb[data-bottom="40"] { bottom: 40% !important; }
+.auth-orb[data-left="40"] { left: 40% !important; }
+.auth-orb[data-right="40"] { right: 40% !important; }
+.auth-orb[data-size="40"], .spotlight[data-size="40"] { --size: 40px; }
+.auth-orb[data-top="41"] { top: 41% !important; }
+.auth-orb[data-bottom="41"] { bottom: 41% !important; }
+.auth-orb[data-left="41"] { left: 41% !important; }
+.auth-orb[data-right="41"] { right: 41% !important; }
+.auth-orb[data-size="41"], .spotlight[data-size="41"] { --size: 41px; }
+.auth-orb[data-top="42"] { top: 42% !important; }
+.auth-orb[data-bottom="42"] { bottom: 42% !important; }
+.auth-orb[data-left="42"] { left: 42% !important; }
+.auth-orb[data-right="42"] { right: 42% !important; }
+.auth-orb[data-size="42"], .spotlight[data-size="42"] { --size: 42px; }
+.auth-orb[data-top="43"] { top: 43% !important; }
+.auth-orb[data-bottom="43"] { bottom: 43% !important; }
+.auth-orb[data-left="43"] { left: 43% !important; }
+.auth-orb[data-right="43"] { right: 43% !important; }
+.auth-orb[data-size="43"], .spotlight[data-size="43"] { --size: 43px; }
+.auth-orb[data-top="44"] { top: 44% !important; }
+.auth-orb[data-bottom="44"] { bottom: 44% !important; }
+.auth-orb[data-left="44"] { left: 44% !important; }
+.auth-orb[data-right="44"] { right: 44% !important; }
+.auth-orb[data-size="44"], .spotlight[data-size="44"] { --size: 44px; }
+.auth-orb[data-top="45"] { top: 45% !important; }
+.auth-orb[data-bottom="45"] { bottom: 45% !important; }
+.auth-orb[data-left="45"] { left: 45% !important; }
+.auth-orb[data-right="45"] { right: 45% !important; }
+.auth-orb[data-size="45"], .spotlight[data-size="45"] { --size: 45px; }
+.auth-orb[data-top="46"] { top: 46% !important; }
+.auth-orb[data-bottom="46"] { bottom: 46% !important; }
+.auth-orb[data-left="46"] { left: 46% !important; }
+.auth-orb[data-right="46"] { right: 46% !important; }
+.auth-orb[data-size="46"], .spotlight[data-size="46"] { --size: 46px; }
+.auth-orb[data-top="47"] { top: 47% !important; }
+.auth-orb[data-bottom="47"] { bottom: 47% !important; }
+.auth-orb[data-left="47"] { left: 47% !important; }
+.auth-orb[data-right="47"] { right: 47% !important; }
+.auth-orb[data-size="47"], .spotlight[data-size="47"] { --size: 47px; }
+.auth-orb[data-top="48"] { top: 48% !important; }
+.auth-orb[data-bottom="48"] { bottom: 48% !important; }
+.auth-orb[data-left="48"] { left: 48% !important; }
+.auth-orb[data-right="48"] { right: 48% !important; }
+.auth-orb[data-size="48"], .spotlight[data-size="48"] { --size: 48px; }
+.auth-orb[data-top="49"] { top: 49% !important; }
+.auth-orb[data-bottom="49"] { bottom: 49% !important; }
+.auth-orb[data-left="49"] { left: 49% !important; }
+.auth-orb[data-right="49"] { right: 49% !important; }
+.auth-orb[data-size="49"], .spotlight[data-size="49"] { --size: 49px; }
+.auth-orb[data-top="50"] { top: 50% !important; }
+.auth-orb[data-bottom="50"] { bottom: 50% !important; }
+.auth-orb[data-left="50"] { left: 50% !important; }
+.auth-orb[data-right="50"] { right: 50% !important; }
+.auth-orb[data-size="50"], .spotlight[data-size="50"] { --size: 50px; }
+.auth-orb[data-top="51"] { top: 51% !important; }
+.auth-orb[data-bottom="51"] { bottom: 51% !important; }
+.auth-orb[data-left="51"] { left: 51% !important; }
+.auth-orb[data-right="51"] { right: 51% !important; }
+.auth-orb[data-size="51"], .spotlight[data-size="51"] { --size: 51px; }
+.auth-orb[data-top="52"] { top: 52% !important; }
+.auth-orb[data-bottom="52"] { bottom: 52% !important; }
+.auth-orb[data-left="52"] { left: 52% !important; }
+.auth-orb[data-right="52"] { right: 52% !important; }
+.auth-orb[data-size="52"], .spotlight[data-size="52"] { --size: 52px; }
+.auth-orb[data-top="53"] { top: 53% !important; }
+.auth-orb[data-bottom="53"] { bottom: 53% !important; }
+.auth-orb[data-left="53"] { left: 53% !important; }
+.auth-orb[data-right="53"] { right: 53% !important; }
+.auth-orb[data-size="53"], .spotlight[data-size="53"] { --size: 53px; }
+.auth-orb[data-top="54"] { top: 54% !important; }
+.auth-orb[data-bottom="54"] { bottom: 54% !important; }
+.auth-orb[data-left="54"] { left: 54% !important; }
+.auth-orb[data-right="54"] { right: 54% !important; }
+.auth-orb[data-size="54"], .spotlight[data-size="54"] { --size: 54px; }
+.auth-orb[data-top="55"] { top: 55% !important; }
+.auth-orb[data-bottom="55"] { bottom: 55% !important; }
+.auth-orb[data-left="55"] { left: 55% !important; }
+.auth-orb[data-right="55"] { right: 55% !important; }
+.auth-orb[data-size="55"], .spotlight[data-size="55"] { --size: 55px; }
+.auth-orb[data-top="56"] { top: 56% !important; }
+.auth-orb[data-bottom="56"] { bottom: 56% !important; }
+.auth-orb[data-left="56"] { left: 56% !important; }
+.auth-orb[data-right="56"] { right: 56% !important; }
+.auth-orb[data-size="56"], .spotlight[data-size="56"] { --size: 56px; }
+.auth-orb[data-top="57"] { top: 57% !important; }
+.auth-orb[data-bottom="57"] { bottom: 57% !important; }
+.auth-orb[data-left="57"] { left: 57% !important; }
+.auth-orb[data-right="57"] { right: 57% !important; }
+.auth-orb[data-size="57"], .spotlight[data-size="57"] { --size: 57px; }
+.auth-orb[data-top="58"] { top: 58% !important; }
+.auth-orb[data-bottom="58"] { bottom: 58% !important; }
+.auth-orb[data-left="58"] { left: 58% !important; }
+.auth-orb[data-right="58"] { right: 58% !important; }
+.auth-orb[data-size="58"], .spotlight[data-size="58"] { --size: 58px; }
+.auth-orb[data-top="59"] { top: 59% !important; }
+.auth-orb[data-bottom="59"] { bottom: 59% !important; }
+.auth-orb[data-left="59"] { left: 59% !important; }
+.auth-orb[data-right="59"] { right: 59% !important; }
+.auth-orb[data-size="59"], .spotlight[data-size="59"] { --size: 59px; }
+.auth-orb[data-top="60"] { top: 60% !important; }
+.auth-orb[data-bottom="60"] { bottom: 60% !important; }
+.auth-orb[data-left="60"] { left: 60% !important; }
+.auth-orb[data-right="60"] { right: 60% !important; }
+.auth-orb[data-size="60"], .spotlight[data-size="60"] { --size: 60px; }
+.auth-orb[data-top="61"] { top: 61% !important; }
+.auth-orb[data-bottom="61"] { bottom: 61% !important; }
+.auth-orb[data-left="61"] { left: 61% !important; }
+.auth-orb[data-right="61"] { right: 61% !important; }
+.auth-orb[data-size="61"], .spotlight[data-size="61"] { --size: 61px; }
+.auth-orb[data-top="62"] { top: 62% !important; }
+.auth-orb[data-bottom="62"] { bottom: 62% !important; }
+.auth-orb[data-left="62"] { left: 62% !important; }
+.auth-orb[data-right="62"] { right: 62% !important; }
+.auth-orb[data-size="62"], .spotlight[data-size="62"] { --size: 62px; }
+.auth-orb[data-top="63"] { top: 63% !important; }
+.auth-orb[data-bottom="63"] { bottom: 63% !important; }
+.auth-orb[data-left="63"] { left: 63% !important; }
+.auth-orb[data-right="63"] { right: 63% !important; }
+.auth-orb[data-size="63"], .spotlight[data-size="63"] { --size: 63px; }
+.auth-orb[data-top="64"] { top: 64% !important; }
+.auth-orb[data-bottom="64"] { bottom: 64% !important; }
+.auth-orb[data-left="64"] { left: 64% !important; }
+.auth-orb[data-right="64"] { right: 64% !important; }
+.auth-orb[data-size="64"], .spotlight[data-size="64"] { --size: 64px; }
+.auth-orb[data-top="65"] { top: 65% !important; }
+.auth-orb[data-bottom="65"] { bottom: 65% !important; }
+.auth-orb[data-left="65"] { left: 65% !important; }
+.auth-orb[data-right="65"] { right: 65% !important; }
+.auth-orb[data-size="65"], .spotlight[data-size="65"] { --size: 65px; }
+.auth-orb[data-top="66"] { top: 66% !important; }
+.auth-orb[data-bottom="66"] { bottom: 66% !important; }
+.auth-orb[data-left="66"] { left: 66% !important; }
+.auth-orb[data-right="66"] { right: 66% !important; }
+.auth-orb[data-size="66"], .spotlight[data-size="66"] { --size: 66px; }
+.auth-orb[data-top="67"] { top: 67% !important; }
+.auth-orb[data-bottom="67"] { bottom: 67% !important; }
+.auth-orb[data-left="67"] { left: 67% !important; }
+.auth-orb[data-right="67"] { right: 67% !important; }
+.auth-orb[data-size="67"], .spotlight[data-size="67"] { --size: 67px; }
+.auth-orb[data-top="68"] { top: 68% !important; }
+.auth-orb[data-bottom="68"] { bottom: 68% !important; }
+.auth-orb[data-left="68"] { left: 68% !important; }
+.auth-orb[data-right="68"] { right: 68% !important; }
+.auth-orb[data-size="68"], .spotlight[data-size="68"] { --size: 68px; }
+.auth-orb[data-top="69"] { top: 69% !important; }
+.auth-orb[data-bottom="69"] { bottom: 69% !important; }
+.auth-orb[data-left="69"] { left: 69% !important; }
+.auth-orb[data-right="69"] { right: 69% !important; }
+.auth-orb[data-size="69"], .spotlight[data-size="69"] { --size: 69px; }
+.auth-orb[data-top="70"] { top: 70% !important; }
+.auth-orb[data-bottom="70"] { bottom: 70% !important; }
+.auth-orb[data-left="70"] { left: 70% !important; }
+.auth-orb[data-right="70"] { right: 70% !important; }
+.auth-orb[data-size="70"], .spotlight[data-size="70"] { --size: 70px; }
+.auth-orb[data-top="71"] { top: 71% !important; }
+.auth-orb[data-bottom="71"] { bottom: 71% !important; }
+.auth-orb[data-left="71"] { left: 71% !important; }
+.auth-orb[data-right="71"] { right: 71% !important; }
+.auth-orb[data-size="71"], .spotlight[data-size="71"] { --size: 71px; }
+.auth-orb[data-top="72"] { top: 72% !important; }
+.auth-orb[data-bottom="72"] { bottom: 72% !important; }
+.auth-orb[data-left="72"] { left: 72% !important; }
+.auth-orb[data-right="72"] { right: 72% !important; }
+.auth-orb[data-size="72"], .spotlight[data-size="72"] { --size: 72px; }
+.auth-orb[data-top="73"] { top: 73% !important; }
+.auth-orb[data-bottom="73"] { bottom: 73% !important; }
+.auth-orb[data-left="73"] { left: 73% !important; }
+.auth-orb[data-right="73"] { right: 73% !important; }
+.auth-orb[data-size="73"], .spotlight[data-size="73"] { --size: 73px; }
+.auth-orb[data-top="74"] { top: 74% !important; }
+.auth-orb[data-bottom="74"] { bottom: 74% !important; }
+.auth-orb[data-left="74"] { left: 74% !important; }
+.auth-orb[data-right="74"] { right: 74% !important; }
+.auth-orb[data-size="74"], .spotlight[data-size="74"] { --size: 74px; }
+.auth-orb[data-top="75"] { top: 75% !important; }
+.auth-orb[data-bottom="75"] { bottom: 75% !important; }
+.auth-orb[data-left="75"] { left: 75% !important; }
+.auth-orb[data-right="75"] { right: 75% !important; }
+.auth-orb[data-size="75"], .spotlight[data-size="75"] { --size: 75px; }
+.auth-orb[data-top="76"] { top: 76% !important; }
+.auth-orb[data-bottom="76"] { bottom: 76% !important; }
+.auth-orb[data-left="76"] { left: 76% !important; }
+.auth-orb[data-right="76"] { right: 76% !important; }
+.auth-orb[data-size="76"], .spotlight[data-size="76"] { --size: 76px; }
+.auth-orb[data-top="77"] { top: 77% !important; }
+.auth-orb[data-bottom="77"] { bottom: 77% !important; }
+.auth-orb[data-left="77"] { left: 77% !important; }
+.auth-orb[data-right="77"] { right: 77% !important; }
+.auth-orb[data-size="77"], .spotlight[data-size="77"] { --size: 77px; }
+.auth-orb[data-top="78"] { top: 78% !important; }
+.auth-orb[data-bottom="78"] { bottom: 78% !important; }
+.auth-orb[data-left="78"] { left: 78% !important; }
+.auth-orb[data-right="78"] { right: 78% !important; }
+.auth-orb[data-size="78"], .spotlight[data-size="78"] { --size: 78px; }
+.auth-orb[data-top="79"] { top: 79% !important; }
+.auth-orb[data-bottom="79"] { bottom: 79% !important; }
+.auth-orb[data-left="79"] { left: 79% !important; }
+.auth-orb[data-right="79"] { right: 79% !important; }
+.auth-orb[data-size="79"], .spotlight[data-size="79"] { --size: 79px; }
+.auth-orb[data-top="80"] { top: 80% !important; }
+.auth-orb[data-bottom="80"] { bottom: 80% !important; }
+.auth-orb[data-left="80"] { left: 80% !important; }
+.auth-orb[data-right="80"] { right: 80% !important; }
+.auth-orb[data-size="80"], .spotlight[data-size="80"] { --size: 80px; }
+.auth-orb[data-top="81"] { top: 81% !important; }
+.auth-orb[data-bottom="81"] { bottom: 81% !important; }
+.auth-orb[data-left="81"] { left: 81% !important; }
+.auth-orb[data-right="81"] { right: 81% !important; }
+.auth-orb[data-size="81"], .spotlight[data-size="81"] { --size: 81px; }
+.auth-orb[data-top="82"] { top: 82% !important; }
+.auth-orb[data-bottom="82"] { bottom: 82% !important; }
+.auth-orb[data-left="82"] { left: 82% !important; }
+.auth-orb[data-right="82"] { right: 82% !important; }
+.auth-orb[data-size="82"], .spotlight[data-size="82"] { --size: 82px; }
+.auth-orb[data-top="83"] { top: 83% !important; }
+.auth-orb[data-bottom="83"] { bottom: 83% !important; }
+.auth-orb[data-left="83"] { left: 83% !important; }
+.auth-orb[data-right="83"] { right: 83% !important; }
+.auth-orb[data-size="83"], .spotlight[data-size="83"] { --size: 83px; }
+.auth-orb[data-top="84"] { top: 84% !important; }
+.auth-orb[data-bottom="84"] { bottom: 84% !important; }
+.auth-orb[data-left="84"] { left: 84% !important; }
+.auth-orb[data-right="84"] { right: 84% !important; }
+.auth-orb[data-size="84"], .spotlight[data-size="84"] { --size: 84px; }
+.auth-orb[data-top="85"] { top: 85% !important; }
+.auth-orb[data-bottom="85"] { bottom: 85% !important; }
+.auth-orb[data-left="85"] { left: 85% !important; }
+.auth-orb[data-right="85"] { right: 85% !important; }
+.auth-orb[data-size="85"], .spotlight[data-size="85"] { --size: 85px; }
+.auth-orb[data-top="86"] { top: 86% !important; }
+.auth-orb[data-bottom="86"] { bottom: 86% !important; }
+.auth-orb[data-left="86"] { left: 86% !important; }
+.auth-orb[data-right="86"] { right: 86% !important; }
+.auth-orb[data-size="86"], .spotlight[data-size="86"] { --size: 86px; }
+.auth-orb[data-top="87"] { top: 87% !important; }
+.auth-orb[data-bottom="87"] { bottom: 87% !important; }
+.auth-orb[data-left="87"] { left: 87% !important; }
+.auth-orb[data-right="87"] { right: 87% !important; }
+.auth-orb[data-size="87"], .spotlight[data-size="87"] { --size: 87px; }
+.auth-orb[data-top="88"] { top: 88% !important; }
+.auth-orb[data-bottom="88"] { bottom: 88% !important; }
+.auth-orb[data-left="88"] { left: 88% !important; }
+.auth-orb[data-right="88"] { right: 88% !important; }
+.auth-orb[data-size="88"], .spotlight[data-size="88"] { --size: 88px; }
+.auth-orb[data-top="89"] { top: 89% !important; }
+.auth-orb[data-bottom="89"] { bottom: 89% !important; }
+.auth-orb[data-left="89"] { left: 89% !important; }
+.auth-orb[data-right="89"] { right: 89% !important; }
+.auth-orb[data-size="89"], .spotlight[data-size="89"] { --size: 89px; }
+.auth-orb[data-top="90"] { top: 90% !important; }
+.auth-orb[data-bottom="90"] { bottom: 90% !important; }
+.auth-orb[data-left="90"] { left: 90% !important; }
+.auth-orb[data-right="90"] { right: 90% !important; }
+.auth-orb[data-size="90"], .spotlight[data-size="90"] { --size: 90px; }
+.auth-orb[data-top="91"] { top: 91% !important; }
+.auth-orb[data-bottom="91"] { bottom: 91% !important; }
+.auth-orb[data-left="91"] { left: 91% !important; }
+.auth-orb[data-right="91"] { right: 91% !important; }
+.auth-orb[data-size="91"], .spotlight[data-size="91"] { --size: 91px; }
+.auth-orb[data-top="92"] { top: 92% !important; }
+.auth-orb[data-bottom="92"] { bottom: 92% !important; }
+.auth-orb[data-left="92"] { left: 92% !important; }
+.auth-orb[data-right="92"] { right: 92% !important; }
+.auth-orb[data-size="92"], .spotlight[data-size="92"] { --size: 92px; }
+.auth-orb[data-top="93"] { top: 93% !important; }
+.auth-orb[data-bottom="93"] { bottom: 93% !important; }
+.auth-orb[data-left="93"] { left: 93% !important; }
+.auth-orb[data-right="93"] { right: 93% !important; }
+.auth-orb[data-size="93"], .spotlight[data-size="93"] { --size: 93px; }
+.auth-orb[data-top="94"] { top: 94% !important; }
+.auth-orb[data-bottom="94"] { bottom: 94% !important; }
+.auth-orb[data-left="94"] { left: 94% !important; }
+.auth-orb[data-right="94"] { right: 94% !important; }
+.auth-orb[data-size="94"], .spotlight[data-size="94"] { --size: 94px; }
+.auth-orb[data-top="95"] { top: 95% !important; }
+.auth-orb[data-bottom="95"] { bottom: 95% !important; }
+.auth-orb[data-left="95"] { left: 95% !important; }
+.auth-orb[data-right="95"] { right: 95% !important; }
+.auth-orb[data-size="95"], .spotlight[data-size="95"] { --size: 95px; }
+.auth-orb[data-top="96"] { top: 96% !important; }
+.auth-orb[data-bottom="96"] { bottom: 96% !important; }
+.auth-orb[data-left="96"] { left: 96% !important; }
+.auth-orb[data-right="96"] { right: 96% !important; }
+.auth-orb[data-size="96"], .spotlight[data-size="96"] { --size: 96px; }
+.auth-orb[data-top="97"] { top: 97% !important; }
+.auth-orb[data-bottom="97"] { bottom: 97% !important; }
+.auth-orb[data-left="97"] { left: 97% !important; }
+.auth-orb[data-right="97"] { right: 97% !important; }
+.auth-orb[data-size="97"], .spotlight[data-size="97"] { --size: 97px; }
+.auth-orb[data-top="98"] { top: 98% !important; }
+.auth-orb[data-bottom="98"] { bottom: 98% !important; }
+.auth-orb[data-left="98"] { left: 98% !important; }
+.auth-orb[data-right="98"] { right: 98% !important; }
+.auth-orb[data-size="98"], .spotlight[data-size="98"] { --size: 98px; }
+.auth-orb[data-top="99"] { top: 99% !important; }
+.auth-orb[data-bottom="99"] { bottom: 99% !important; }
+.auth-orb[data-left="99"] { left: 99% !important; }
+.auth-orb[data-right="99"] { right: 99% !important; }
+.auth-orb[data-size="99"], .spotlight[data-size="99"] { --size: 99px; }
+.auth-orb[data-top="100"] { top: 100% !important; }
+.auth-orb[data-bottom="100"] { bottom: 100% !important; }
+.auth-orb[data-left="100"] { left: 100% !important; }
+.auth-orb[data-right="100"] { right: 100% !important; }
+.auth-orb[data-size="100"], .spotlight[data-size="100"] { --size: 100px; }

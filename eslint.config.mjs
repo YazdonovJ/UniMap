@@ -12,6 +12,12 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Generated build artifacts checked into the repo.
+    "Kimi_Agent_Deployment_v2/**",
+    "test-results/**",
+    // Local debug scripts outside the Next.js app runtime.
+    "puppet.js",
+    "test.js",
   ]),
 ]);
 

@@ -1,0 +1,1331 @@
+/* ═══════════════════════════════════════════════════════
+   My Classes — Premium Design System
+   ═══════════════════════════════════════════════════════ */
+
+.mcl-page {
+    --mcl-ink: #1a1f2e;
+    --mcl-sub: #64748b;
+    --mcl-faint: #94a3b8;
+    --mcl-line: #e2e8f0;
+    --mcl-surface: #ffffff;
+    --mcl-bg: #f8fafc;
+    --mcl-accent: #4f46e5;
+    --mcl-accent-soft: #eef2ff;
+    --mcl-success: #059669;
+    --mcl-success-soft: #ecfdf5;
+    --mcl-warning: #d97706;
+    --mcl-warning-soft: #fffbeb;
+    --mcl-danger: #dc2626;
+    --mcl-danger-soft: #fef2f2;
+    --mcl-info: #2563eb;
+    --mcl-info-soft: #eff6ff;
+    --mcl-radius-xl: 20px;
+    --mcl-radius-lg: 16px;
+    --mcl-radius-md: 12px;
+    --mcl-radius-sm: 8px;
+    --mcl-radius-pill: 999px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: var(--mcl-ink);
+    position: relative;
+}
+
+/* ── Reveal animation ── */
+.mcl-reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    animation: mclReveal 500ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes mclReveal {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ══════════════════════════════════════
+   Hero / Next Due Widget
+   ══════════════════════════════════════ */
+.mcl-hero {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.mcl-hero-greeting {
+    font-size: clamp(1.4rem, 2.2vw, 1.75rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+}
+
+.mcl-hero-sub {
+    color: var(--mcl-sub);
+    font-size: 0.92rem;
+    margin-top: 2px;
+}
+
+.mcl-next-due {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    border-radius: var(--mcl-radius-lg);
+    border: 1px solid var(--mcl-line);
+    background: linear-gradient(135deg, #fefefe, #f8fafc);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+    transition: transform 220ms ease, box-shadow 220ms ease;
+}
+
+.mcl-next-due:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.07);
+}
+
+.mcl-next-due-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--mcl-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.mcl-next-due-icon.is-urgent {
+    background: var(--mcl-danger-soft);
+    color: var(--mcl-danger);
+}
+
+.mcl-next-due-icon.is-soon {
+    background: var(--mcl-warning-soft);
+    color: var(--mcl-warning);
+}
+
+.mcl-next-due-icon.is-safe {
+    background: var(--mcl-success-soft);
+    color: var(--mcl-success);
+}
+
+.mcl-next-due-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.mcl-next-due-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mcl-faint);
+}
+
+.mcl-next-due-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.mcl-next-due-meta {
+    font-size: 0.82rem;
+    color: var(--mcl-sub);
+    margin-top: 2px;
+}
+
+.mcl-countdown-badge {
+    padding: 6px 14px;
+    border-radius: var(--mcl-radius-pill);
+    font-size: 0.78rem;
+    font-weight: 800;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.mcl-countdown-badge.is-urgent {
+    background: var(--mcl-danger-soft);
+    color: var(--mcl-danger);
+    border: 1px solid rgba(220, 38, 38, 0.2);
+}
+
+.mcl-countdown-badge.is-soon {
+    background: var(--mcl-warning-soft);
+    color: var(--mcl-warning);
+    border: 1px solid rgba(217, 119, 6, 0.2);
+}
+
+.mcl-countdown-badge.is-safe {
+    background: var(--mcl-success-soft);
+    color: var(--mcl-success);
+    border: 1px solid rgba(5, 150, 105, 0.2);
+}
+
+/* ══════════════════════════════════════
+   Stat Cards Grid
+   ══════════════════════════════════════ */
+.mcl-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.mcl-stat {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: var(--mcl-radius-lg);
+    border: 1px solid var(--mcl-line);
+    background: var(--mcl-surface);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.mcl-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.mcl-stat-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--mcl-radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.mcl-stat-icon.is-classes {
+    background: var(--mcl-accent-soft);
+    color: var(--mcl-accent);
+}
+
+.mcl-stat-icon.is-tasks {
+    background: var(--mcl-warning-soft);
+    color: var(--mcl-warning);
+}
+
+.mcl-stat-icon.is-graded {
+    background: var(--mcl-success-soft);
+    color: var(--mcl-success);
+}
+
+.mcl-stat-icon.is-announcements {
+    background: #fdf2f8;
+    color: #db2777;
+}
+
+.mcl-stat-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1;
+}
+
+.mcl-stat-label {
+    font-size: 0.75rem;
+    color: var(--mcl-faint);
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+/* ══════════════════════════════════════
+   Grade Overview Bar
+   ══════════════════════════════════════ */
+.mcl-grade-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-radius: var(--mcl-radius-md);
+    border: 1px solid var(--mcl-line);
+    background: var(--mcl-surface);
+}
+
+.mcl-grade-bar-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--mcl-sub);
+    white-space: nowrap;
+}
+
+.mcl-grade-bar-track {
+    flex: 1;
+    height: 8px;
+    border-radius: var(--mcl-radius-pill);
+    background: #f1f5f9;
+    overflow: hidden;
+}
+
+.mcl-grade-bar-fill {
+    height: 100%;
+    border-radius: var(--mcl-radius-pill);
+    background: linear-gradient(90deg, var(--mcl-accent), #818cf8);
+    transition: width 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mcl-grade-bar-value {
+    font-size: 0.88rem;
+    font-weight: 800;
+    color: var(--mcl-accent);
+    min-width: 36px;
+    text-align: right;
+}
+
+/* ══════════════════════════════════════
+   Segmented Tabs
+   ══════════════════════════════════════ */
+.mcl-tabs {
+    position: relative;
+    display: inline-flex;
+    padding: 4px;
+    border-radius: calc(var(--mcl-radius-md) + 2px);
+    border: 1px solid var(--mcl-line);
+    background: var(--mcl-bg);
+    gap: 0;
+}
+
+.mcl-tab-indicator {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: calc(100% - 8px);
+    border-radius: var(--mcl-radius-md);
+    background: var(--mcl-surface);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+    transition: transform 280ms cubic-bezier(0.22, 1, 0.36, 1), width 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mcl-tab {
+    position: relative;
+    z-index: 1;
+    border: 0;
+    background: transparent;
+    padding: 10px 18px;
+    border-radius: var(--mcl-radius-md);
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: var(--mcl-sub);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 200ms ease;
+    white-space: nowrap;
+}
+
+.mcl-tab:hover {
+    color: var(--mcl-ink);
+}
+
+.mcl-tab.is-active {
+    color: var(--mcl-accent);
+}
+
+.mcl-tab-count {
+    min-width: 20px;
+    height: 20px;
+    border-radius: var(--mcl-radius-pill);
+    background: var(--mcl-accent-soft);
+    color: var(--mcl-accent);
+    font-size: 0.7rem;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+}
+
+.mcl-tab.is-active .mcl-tab-count {
+    background: var(--mcl-accent);
+    color: #fff;
+}
+
+/* ══════════════════════════════════════
+   Class Filter Chips
+   ══════════════════════════════════════ */
+.mcl-class-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.mcl-class-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    border-radius: var(--mcl-radius-pill);
+    border: 1px solid var(--mcl-line);
+    background: var(--mcl-surface);
+    color: var(--mcl-sub);
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 180ms ease;
+}
+
+.mcl-class-chip:hover {
+    border-color: #c7d2fe;
+    background: var(--mcl-accent-soft);
+}
+
+.mcl-class-chip.is-active {
+    border-color: var(--mcl-accent);
+    background: var(--mcl-accent);
+    color: #fff;
+}
+
+.mcl-class-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════
+   Class Cards
+   ══════════════════════════════════════ */
+.mcl-classes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+}
+
+.mcl-class-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px;
+    border-radius: var(--mcl-radius-lg);
+    border: 1px solid var(--mcl-line);
+    background: var(--mcl-surface);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+    transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 260ms ease;
+    animation: mclReveal 450ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mcl-class-card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: var(--class-color, var(--mcl-accent));
+}
+
+.mcl-class-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08);
+}
+
+.mcl-class-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.mcl-class-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.mcl-class-name {
+    font-size: 1.08rem;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+}
+
+.mcl-class-subject {
+    font-size: 0.82rem;
+    color: var(--mcl-sub);
+    margin-top: 2px;
+}
+
+.mcl-class-desc {
+    font-size: 0.84rem;
+    color: var(--mcl-faint);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* ── Progress Ring ── */
+.mcl-progress-ring {
+    position: relative;
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+}
+
+.mcl-progress-ring svg {
+    width: 52px;
+    height: 52px;
+    transform: rotate(-90deg);
+}
+
+.mcl-progress-ring-bg {
+    fill: none;
+    stroke: #f1f5f9;
+    stroke-width: 4;
+}
+
+.mcl-progress-ring-fill {
+    fill: none;
+    stroke-width: 4;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 800ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mcl-progress-ring-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.72rem;
+    font-weight: 800;
+}
+
+.mcl-class-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--mcl-line);
+}
+
+.mcl-class-schedule {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.78rem;
+    color: var(--mcl-faint);
+    font-weight: 600;
+}
+
+.mcl-class-next-due {
+    font-size: 0.78rem;
+    color: var(--mcl-sub);
+    font-weight: 600;
+}
+
+/* ══════════════════════════════════════
+   Assignments Timeline
+   ══════════════════════════════════════ */
+.mcl-assignments {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mcl-assignment {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: var(--mcl-radius-lg);
+    border: 1px solid var(--mcl-line);
+    background: var(--mcl-surface);
+    transition: transform 200ms ease, box-shadow 200ms ease;
+    animation: mclReveal 400ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mcl-assignment:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.mcl-assignment-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.mcl-assignment-status-dot.is-submitted {
+    background: var(--mcl-success);
+    box-shadow: 0 0 0 3px var(--mcl-success-soft);
+}
+
+.mcl-assignment-status-dot.is-graded {
+    background: var(--mcl-accent);
+    box-shadow: 0 0 0 3px var(--mcl-accent-soft);
+}
+
+.mcl-assignment-status-dot.is-overdue {
+    background: var(--mcl-danger);
+    box-shadow: 0 0 0 3px var(--mcl-danger-soft);
+    animation: mclPulse 1.5s ease-in-out infinite;
+}
+
+.mcl-assignment-status-dot.is-pending {
+    background: var(--mcl-warning);
+    box-shadow: 0 0 0 3px var(--mcl-warning-soft);
+}
+
+@keyframes mclPulse {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 3px var(--mcl-danger-soft);
+    }
+
+    50% {
+        box-shadow: 0 0 0 6px rgba(220, 38, 38, 0.15);
+    }
+}
+
+.mcl-assignment-main {
+    flex: 1;
+    min-width: 0;
+}
+
+.mcl-assignment-title {
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.mcl-assignment-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+}
+
+.mcl-assignment-date {
+    font-size: 0.78rem;
+    color: var(--mcl-faint);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.mcl-assignment-type {
+    display: inline-flex;
+    padding: 3px 10px;
+    border-radius: var(--mcl-radius-pill);
+    font-size: 0.68rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.mcl-assignment-type.is-homework {
+    background: var(--mcl-info-soft);
+    color: var(--mcl-info);
+}
+
+.mcl-assignment-type.is-essay {
+    background: #faf5ff;
+    color: #9333ea;
+}
+
+.mcl-assignment-type.is-project {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.mcl-assignment-type.is-quiz {
+    background: var(--mcl-warning-soft);
+    color: var(--mcl-warning);
+}
+
+.mcl-assignment-type.is-exam {
+    background: var(--mcl-danger-soft);
+    color: var(--mcl-danger);
+}
+
+.mcl-assignment-type.is-other {
+    background: var(--mcl-bg);
+    color: var(--mcl-sub);
+}
+
+.mcl-assignment-points {
+    font-size: 0.75rem;
+    color: var(--mcl-faint);
+    font-weight: 600;
+}
+
+.mcl-assignment-class-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: var(--mcl-sub);
+}
+
+.mcl-assignment-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.mcl-grade-badge {
+    padding: 5px 12px;
+    border-radius: var(--mcl-radius-pill);
+    font-size: 0.78rem;
+    font-weight: 800;
+    background: var(--mcl-accent-soft);
+    color: var(--mcl-accent);
+    border: 1px solid rgba(79, 70, 229, 0.15);
+}
+
+.mcl-submit-btn {
+    padding: 8px 16px;
+    border-radius: var(--mcl-radius-md);
+    border: 0;
+    background: var(--mcl-accent);
+    color: #fff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: transform 180ms ease, filter 180ms ease;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.25);
+}
+
+.mcl-submit-btn:hover {
+    transform: translateY(-1px);
+    filter: brightness(1.08);
+}
+
+.mcl-submit-btn:active {
+    transform: translateY(1px) scale(0.98);
+}
+
+.mcl-submit-btn.is-overdue {
+    background: var(--mcl-danger);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+}
+
+/* ══════════════════════════════════════
+   Announcements
+   ══════════════════════════════════════ */
+.mcl-announcements {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.mcl-announcement {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: var(--mcl-radius-lg);
+    border: 1px solid var(--mcl-line);
+    background: var(--mcl-surface);
+    overflow: hidden;
+    transition: transform 200ms ease, box-shadow 200ms ease;
+    animation: mclReveal 400ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.mcl-announcement::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+}
+
+.mcl-announcement.is-info::before {
+    background: var(--mcl-info);
+}
+
+.mcl-announcement.is-warning::before {
+    background: var(--mcl-warning);
+}
+
+.mcl-announcement.is-urgent::before {
+    background: var(--mcl-danger);
+}
+
+.mcl-announcement.is-pinned {
+    border-color: #c7d2fe;
+    background: linear-gradient(135deg, #fafaff, #f5f3ff);
+}
+
+.mcl-announcement:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.mcl-announcement-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--mcl-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.mcl-announcement-icon.is-info {
+    background: var(--mcl-info-soft);
+    color: var(--mcl-info);
+}
+
+.mcl-announcement-icon.is-warning {
+    background: var(--mcl-warning-soft);
+    color: var(--mcl-warning);
+}
+
+.mcl-announcement-icon.is-urgent {
+    background: var(--mcl-danger-soft);
+    color: var(--mcl-danger);
+}
+
+.mcl-announcement-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.mcl-announcement-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.mcl-announcement-title {
+    font-size: 0.94rem;
+    font-weight: 700;
+}
+
+.mcl-priority-badge {
+    padding: 2px 10px;
+    border-radius: var(--mcl-radius-pill);
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.mcl-priority-badge.is-info {
+    background: var(--mcl-info-soft);
+    color: var(--mcl-info);
+}
+
+.mcl-priority-badge.is-warning {
+    background: var(--mcl-warning-soft);
+    color: var(--mcl-warning);
+}
+
+.mcl-priority-badge.is-urgent {
+    background: var(--mcl-danger-soft);
+    color: var(--mcl-danger);
+}
+
+.mcl-pin-icon {
+    color: var(--mcl-accent);
+}
+
+.mcl-urgent-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--mcl-danger);
+    animation: mclPulse 1.5s ease-in-out infinite;
+    flex-shrink: 0;
+}
+
+.mcl-announcement-content {
+    font-size: 0.86rem;
+    color: var(--mcl-sub);
+    line-height: 1.55;
+    margin-top: 6px;
+}
+
+.mcl-announcement-date {
+    font-size: 0.74rem;
+    color: var(--mcl-faint);
+    font-weight: 600;
+    margin-top: 8px;
+}
+
+/* ══════════════════════════════════════
+   Empty States
+   ══════════════════════════════════════ */
+.mcl-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 56px 24px;
+    border-radius: var(--mcl-radius-lg);
+    border: 1px dashed var(--mcl-line);
+    background: var(--mcl-bg);
+    text-align: center;
+}
+
+.mcl-empty-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--mcl-radius-lg);
+    background: var(--mcl-accent-soft);
+    color: var(--mcl-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mcl-empty-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--mcl-ink);
+}
+
+.mcl-empty-desc {
+    font-size: 0.86rem;
+    color: var(--mcl-faint);
+    max-width: 320px;
+}
+
+/* ══════════════════════════════════════
+   Responsive
+   ══════════════════════════════════════ */
+@media (max-width: 900px) {
+    .mcl-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mcl-classes-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .mcl-stats {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .mcl-stat {
+        padding: 10px 12px;
+    }
+
+    .mcl-tabs {
+        width: 100%;
+    }
+
+    .mcl-tab {
+        flex: 1;
+        justify-content: center;
+        padding: 8px 10px;
+        font-size: 0.8rem;
+    }
+
+    .mcl-next-due {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .mcl-assignment {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .mcl-assignment-actions {
+        width: 100%;
+    }
+
+    .mcl-submit-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+    .mcl-reveal,
+    .mcl-class-card,
+    .mcl-assignment,
+    .mcl-announcement {
+        animation: none;
+        opacity: 1;
+        transform: none;
+    }
+
+    .mcl-assignment-status-dot.is-overdue,
+    .mcl-urgent-dot {
+        animation: none;
+    }
+
+    .mcl-tab-indicator,
+    .mcl-grade-bar-fill,
+    .mcl-progress-ring-fill {
+        transition: none;
+    }
+}
+/* Data Attribute Support for Dynamic Styles */
+.mcl-reveal[data-delay] {
+    animation-delay: var(--delay);
+}
+
+.mcl-grade-bar-fill[data-progress] {
+    width: var(--width);
+}
+
+.mcl-tab-indicator[data-transform] {
+    transform: var(--transform);
+    width: var(--width);
+}
+
+.mcl-class-card[data-index] {
+    animation-delay: calc(var(--index) * 60ms);
+}
+
+.mcl-assignment[data-index],
+.mcl-announcement[data-index] {
+    animation-delay: calc(var(--index) * 50ms);
+}
+
+.mcl-class-dot[data-bg] {
+    background: var(--bg) !important;
+}
+
+.mcl-grade-badge[data-status="submitted"] {
+    background: #ecfdf5;
+    color: #059669;
+}
+
+.mcl-progress-ring-text[data-color] {
+    color: var(--color);
+}
+
+/* ── Data Attribute Support ── */
+.mcl-grade-bar-fill[data-progress="0"] { width: 0% !important; }
+.mcl-reveal[data-delay-idx="0"] { animation-delay: 0ms !important; }
+.mcl-class-card[data-index="0"], .mcl-assignment[data-index="0"], .mcl-announcement[data-index="0"] { animation-delay: 0ms !important; }
+.mcl-grade-bar-fill[data-progress="1"] { width: 1% !important; }
+.mcl-reveal[data-delay-idx="1"] { animation-delay: 60ms !important; }
+.mcl-class-card[data-index="1"], .mcl-assignment[data-index="1"], .mcl-announcement[data-index="1"] { animation-delay: 50ms !important; }
+.mcl-grade-bar-fill[data-progress="2"] { width: 2% !important; }
+.mcl-reveal[data-delay-idx="2"] { animation-delay: 120ms !important; }
+.mcl-class-card[data-index="2"], .mcl-assignment[data-index="2"], .mcl-announcement[data-index="2"] { animation-delay: 100ms !important; }
+.mcl-grade-bar-fill[data-progress="3"] { width: 3% !important; }
+.mcl-reveal[data-delay-idx="3"] { animation-delay: 180ms !important; }
+.mcl-class-card[data-index="3"], .mcl-assignment[data-index="3"], .mcl-announcement[data-index="3"] { animation-delay: 150ms !important; }
+.mcl-grade-bar-fill[data-progress="4"] { width: 4% !important; }
+.mcl-reveal[data-delay-idx="4"] { animation-delay: 240ms !important; }
+.mcl-class-card[data-index="4"], .mcl-assignment[data-index="4"], .mcl-announcement[data-index="4"] { animation-delay: 200ms !important; }
+.mcl-grade-bar-fill[data-progress="5"] { width: 5% !important; }
+.mcl-reveal[data-delay-idx="5"] { animation-delay: 300ms !important; }
+.mcl-class-card[data-index="5"], .mcl-assignment[data-index="5"], .mcl-announcement[data-index="5"] { animation-delay: 250ms !important; }
+.mcl-grade-bar-fill[data-progress="6"] { width: 6% !important; }
+.mcl-reveal[data-delay-idx="6"] { animation-delay: 360ms !important; }
+.mcl-class-card[data-index="6"], .mcl-assignment[data-index="6"], .mcl-announcement[data-index="6"] { animation-delay: 300ms !important; }
+.mcl-grade-bar-fill[data-progress="7"] { width: 7% !important; }
+.mcl-reveal[data-delay-idx="7"] { animation-delay: 420ms !important; }
+.mcl-class-card[data-index="7"], .mcl-assignment[data-index="7"], .mcl-announcement[data-index="7"] { animation-delay: 350ms !important; }
+.mcl-grade-bar-fill[data-progress="8"] { width: 8% !important; }
+.mcl-reveal[data-delay-idx="8"] { animation-delay: 480ms !important; }
+.mcl-class-card[data-index="8"], .mcl-assignment[data-index="8"], .mcl-announcement[data-index="8"] { animation-delay: 400ms !important; }
+.mcl-grade-bar-fill[data-progress="9"] { width: 9% !important; }
+.mcl-reveal[data-delay-idx="9"] { animation-delay: 540ms !important; }
+.mcl-class-card[data-index="9"], .mcl-assignment[data-index="9"], .mcl-announcement[data-index="9"] { animation-delay: 450ms !important; }
+.mcl-grade-bar-fill[data-progress="10"] { width: 10% !important; }
+.mcl-reveal[data-delay-idx="10"] { animation-delay: 600ms !important; }
+.mcl-class-card[data-index="10"], .mcl-assignment[data-index="10"], .mcl-announcement[data-index="10"] { animation-delay: 500ms !important; }
+.mcl-grade-bar-fill[data-progress="11"] { width: 11% !important; }
+.mcl-reveal[data-delay-idx="11"] { animation-delay: 660ms !important; }
+.mcl-class-card[data-index="11"], .mcl-assignment[data-index="11"], .mcl-announcement[data-index="11"] { animation-delay: 550ms !important; }
+.mcl-grade-bar-fill[data-progress="12"] { width: 12% !important; }
+.mcl-reveal[data-delay-idx="12"] { animation-delay: 720ms !important; }
+.mcl-class-card[data-index="12"], .mcl-assignment[data-index="12"], .mcl-announcement[data-index="12"] { animation-delay: 600ms !important; }
+.mcl-grade-bar-fill[data-progress="13"] { width: 13% !important; }
+.mcl-reveal[data-delay-idx="13"] { animation-delay: 780ms !important; }
+.mcl-class-card[data-index="13"], .mcl-assignment[data-index="13"], .mcl-announcement[data-index="13"] { animation-delay: 650ms !important; }
+.mcl-grade-bar-fill[data-progress="14"] { width: 14% !important; }
+.mcl-reveal[data-delay-idx="14"] { animation-delay: 840ms !important; }
+.mcl-class-card[data-index="14"], .mcl-assignment[data-index="14"], .mcl-announcement[data-index="14"] { animation-delay: 700ms !important; }
+.mcl-grade-bar-fill[data-progress="15"] { width: 15% !important; }
+.mcl-reveal[data-delay-idx="15"] { animation-delay: 900ms !important; }
+.mcl-class-card[data-index="15"], .mcl-assignment[data-index="15"], .mcl-announcement[data-index="15"] { animation-delay: 750ms !important; }
+.mcl-grade-bar-fill[data-progress="16"] { width: 16% !important; }
+.mcl-reveal[data-delay-idx="16"] { animation-delay: 960ms !important; }
+.mcl-class-card[data-index="16"], .mcl-assignment[data-index="16"], .mcl-announcement[data-index="16"] { animation-delay: 800ms !important; }
+.mcl-grade-bar-fill[data-progress="17"] { width: 17% !important; }
+.mcl-reveal[data-delay-idx="17"] { animation-delay: 1020ms !important; }
+.mcl-class-card[data-index="17"], .mcl-assignment[data-index="17"], .mcl-announcement[data-index="17"] { animation-delay: 850ms !important; }
+.mcl-grade-bar-fill[data-progress="18"] { width: 18% !important; }
+.mcl-reveal[data-delay-idx="18"] { animation-delay: 1080ms !important; }
+.mcl-class-card[data-index="18"], .mcl-assignment[data-index="18"], .mcl-announcement[data-index="18"] { animation-delay: 900ms !important; }
+.mcl-grade-bar-fill[data-progress="19"] { width: 19% !important; }
+.mcl-reveal[data-delay-idx="19"] { animation-delay: 1140ms !important; }
+.mcl-class-card[data-index="19"], .mcl-assignment[data-index="19"], .mcl-announcement[data-index="19"] { animation-delay: 950ms !important; }
+.mcl-grade-bar-fill[data-progress="20"] { width: 20% !important; }
+.mcl-reveal[data-delay-idx="20"] { animation-delay: 1200ms !important; }
+.mcl-class-card[data-index="20"], .mcl-assignment[data-index="20"], .mcl-announcement[data-index="20"] { animation-delay: 1000ms !important; }
+.mcl-grade-bar-fill[data-progress="21"] { width: 21% !important; }
+.mcl-reveal[data-delay-idx="21"] { animation-delay: 1260ms !important; }
+.mcl-class-card[data-index="21"], .mcl-assignment[data-index="21"], .mcl-announcement[data-index="21"] { animation-delay: 1050ms !important; }
+.mcl-grade-bar-fill[data-progress="22"] { width: 22% !important; }
+.mcl-reveal[data-delay-idx="22"] { animation-delay: 1320ms !important; }
+.mcl-class-card[data-index="22"], .mcl-assignment[data-index="22"], .mcl-announcement[data-index="22"] { animation-delay: 1100ms !important; }
+.mcl-grade-bar-fill[data-progress="23"] { width: 23% !important; }
+.mcl-reveal[data-delay-idx="23"] { animation-delay: 1380ms !important; }
+.mcl-class-card[data-index="23"], .mcl-assignment[data-index="23"], .mcl-announcement[data-index="23"] { animation-delay: 1150ms !important; }
+.mcl-grade-bar-fill[data-progress="24"] { width: 24% !important; }
+.mcl-reveal[data-delay-idx="24"] { animation-delay: 1440ms !important; }
+.mcl-class-card[data-index="24"], .mcl-assignment[data-index="24"], .mcl-announcement[data-index="24"] { animation-delay: 1200ms !important; }
+.mcl-grade-bar-fill[data-progress="25"] { width: 25% !important; }
+.mcl-reveal[data-delay-idx="25"] { animation-delay: 1500ms !important; }
+.mcl-class-card[data-index="25"], .mcl-assignment[data-index="25"], .mcl-announcement[data-index="25"] { animation-delay: 1250ms !important; }
+.mcl-grade-bar-fill[data-progress="26"] { width: 26% !important; }
+.mcl-reveal[data-delay-idx="26"] { animation-delay: 1560ms !important; }
+.mcl-class-card[data-index="26"], .mcl-assignment[data-index="26"], .mcl-announcement[data-index="26"] { animation-delay: 1300ms !important; }
+.mcl-grade-bar-fill[data-progress="27"] { width: 27% !important; }
+.mcl-reveal[data-delay-idx="27"] { animation-delay: 1620ms !important; }
+.mcl-class-card[data-index="27"], .mcl-assignment[data-index="27"], .mcl-announcement[data-index="27"] { animation-delay: 1350ms !important; }
+.mcl-grade-bar-fill[data-progress="28"] { width: 28% !important; }
+.mcl-reveal[data-delay-idx="28"] { animation-delay: 1680ms !important; }
+.mcl-class-card[data-index="28"], .mcl-assignment[data-index="28"], .mcl-announcement[data-index="28"] { animation-delay: 1400ms !important; }
+.mcl-grade-bar-fill[data-progress="29"] { width: 29% !important; }
+.mcl-reveal[data-delay-idx="29"] { animation-delay: 1740ms !important; }
+.mcl-class-card[data-index="29"], .mcl-assignment[data-index="29"], .mcl-announcement[data-index="29"] { animation-delay: 1450ms !important; }
+.mcl-grade-bar-fill[data-progress="30"] { width: 30% !important; }
+.mcl-reveal[data-delay-idx="30"] { animation-delay: 1800ms !important; }
+.mcl-class-card[data-index="30"], .mcl-assignment[data-index="30"], .mcl-announcement[data-index="30"] { animation-delay: 1500ms !important; }
+.mcl-grade-bar-fill[data-progress="31"] { width: 31% !important; }
+.mcl-reveal[data-delay-idx="31"] { animation-delay: 1860ms !important; }
+.mcl-class-card[data-index="31"], .mcl-assignment[data-index="31"], .mcl-announcement[data-index="31"] { animation-delay: 1550ms !important; }
+.mcl-grade-bar-fill[data-progress="32"] { width: 32% !important; }
+.mcl-reveal[data-delay-idx="32"] { animation-delay: 1920ms !important; }
+.mcl-class-card[data-index="32"], .mcl-assignment[data-index="32"], .mcl-announcement[data-index="32"] { animation-delay: 1600ms !important; }
+.mcl-grade-bar-fill[data-progress="33"] { width: 33% !important; }
+.mcl-reveal[data-delay-idx="33"] { animation-delay: 1980ms !important; }
+.mcl-class-card[data-index="33"], .mcl-assignment[data-index="33"], .mcl-announcement[data-index="33"] { animation-delay: 1650ms !important; }
+.mcl-grade-bar-fill[data-progress="34"] { width: 34% !important; }
+.mcl-reveal[data-delay-idx="34"] { animation-delay: 2040ms !important; }
+.mcl-class-card[data-index="34"], .mcl-assignment[data-index="34"], .mcl-announcement[data-index="34"] { animation-delay: 1700ms !important; }
+.mcl-grade-bar-fill[data-progress="35"] { width: 35% !important; }
+.mcl-reveal[data-delay-idx="35"] { animation-delay: 2100ms !important; }
+.mcl-class-card[data-index="35"], .mcl-assignment[data-index="35"], .mcl-announcement[data-index="35"] { animation-delay: 1750ms !important; }
+.mcl-grade-bar-fill[data-progress="36"] { width: 36% !important; }
+.mcl-reveal[data-delay-idx="36"] { animation-delay: 2160ms !important; }
+.mcl-class-card[data-index="36"], .mcl-assignment[data-index="36"], .mcl-announcement[data-index="36"] { animation-delay: 1800ms !important; }
+.mcl-grade-bar-fill[data-progress="37"] { width: 37% !important; }
+.mcl-reveal[data-delay-idx="37"] { animation-delay: 2220ms !important; }
+.mcl-class-card[data-index="37"], .mcl-assignment[data-index="37"], .mcl-announcement[data-index="37"] { animation-delay: 1850ms !important; }
+.mcl-grade-bar-fill[data-progress="38"] { width: 38% !important; }
+.mcl-reveal[data-delay-idx="38"] { animation-delay: 2280ms !important; }
+.mcl-class-card[data-index="38"], .mcl-assignment[data-index="38"], .mcl-announcement[data-index="38"] { animation-delay: 1900ms !important; }
+.mcl-grade-bar-fill[data-progress="39"] { width: 39% !important; }
+.mcl-reveal[data-delay-idx="39"] { animation-delay: 2340ms !important; }
+.mcl-class-card[data-index="39"], .mcl-assignment[data-index="39"], .mcl-announcement[data-index="39"] { animation-delay: 1950ms !important; }
+.mcl-grade-bar-fill[data-progress="40"] { width: 40% !important; }
+.mcl-reveal[data-delay-idx="40"] { animation-delay: 2400ms !important; }
+.mcl-class-card[data-index="40"], .mcl-assignment[data-index="40"], .mcl-announcement[data-index="40"] { animation-delay: 2000ms !important; }
+.mcl-grade-bar-fill[data-progress="41"] { width: 41% !important; }
+.mcl-reveal[data-delay-idx="41"] { animation-delay: 2460ms !important; }
+.mcl-class-card[data-index="41"], .mcl-assignment[data-index="41"], .mcl-announcement[data-index="41"] { animation-delay: 2050ms !important; }
+.mcl-grade-bar-fill[data-progress="42"] { width: 42% !important; }
+.mcl-reveal[data-delay-idx="42"] { animation-delay: 2520ms !important; }
+.mcl-class-card[data-index="42"], .mcl-assignment[data-index="42"], .mcl-announcement[data-index="42"] { animation-delay: 2100ms !important; }
+.mcl-grade-bar-fill[data-progress="43"] { width: 43% !important; }
+.mcl-reveal[data-delay-idx="43"] { animation-delay: 2580ms !important; }
+.mcl-class-card[data-index="43"], .mcl-assignment[data-index="43"], .mcl-announcement[data-index="43"] { animation-delay: 2150ms !important; }
+.mcl-grade-bar-fill[data-progress="44"] { width: 44% !important; }
+.mcl-reveal[data-delay-idx="44"] { animation-delay: 2640ms !important; }
+.mcl-class-card[data-index="44"], .mcl-assignment[data-index="44"], .mcl-announcement[data-index="44"] { animation-delay: 2200ms !important; }
+.mcl-grade-bar-fill[data-progress="45"] { width: 45% !important; }
+.mcl-reveal[data-delay-idx="45"] { animation-delay: 2700ms !important; }
+.mcl-class-card[data-index="45"], .mcl-assignment[data-index="45"], .mcl-announcement[data-index="45"] { animation-delay: 2250ms !important; }
+.mcl-grade-bar-fill[data-progress="46"] { width: 46% !important; }
+.mcl-reveal[data-delay-idx="46"] { animation-delay: 2760ms !important; }
+.mcl-class-card[data-index="46"], .mcl-assignment[data-index="46"], .mcl-announcement[data-index="46"] { animation-delay: 2300ms !important; }
+.mcl-grade-bar-fill[data-progress="47"] { width: 47% !important; }
+.mcl-reveal[data-delay-idx="47"] { animation-delay: 2820ms !important; }
+.mcl-class-card[data-index="47"], .mcl-assignment[data-index="47"], .mcl-announcement[data-index="47"] { animation-delay: 2350ms !important; }
+.mcl-grade-bar-fill[data-progress="48"] { width: 48% !important; }
+.mcl-reveal[data-delay-idx="48"] { animation-delay: 2880ms !important; }
+.mcl-class-card[data-index="48"], .mcl-assignment[data-index="48"], .mcl-announcement[data-index="48"] { animation-delay: 2400ms !important; }
+.mcl-grade-bar-fill[data-progress="49"] { width: 49% !important; }
+.mcl-reveal[data-delay-idx="49"] { animation-delay: 2940ms !important; }
+.mcl-class-card[data-index="49"], .mcl-assignment[data-index="49"], .mcl-announcement[data-index="49"] { animation-delay: 2450ms !important; }
+.mcl-grade-bar-fill[data-progress="50"] { width: 50% !important; }
+.mcl-reveal[data-delay-idx="50"] { animation-delay: 3000ms !important; }
+.mcl-class-card[data-index="50"], .mcl-assignment[data-index="50"], .mcl-announcement[data-index="50"] { animation-delay: 2500ms !important; }
+.mcl-grade-bar-fill[data-progress="51"] { width: 51% !important; }
+.mcl-reveal[data-delay-idx="51"] { animation-delay: 3060ms !important; }
+.mcl-class-card[data-index="51"], .mcl-assignment[data-index="51"], .mcl-announcement[data-index="51"] { animation-delay: 2550ms !important; }
+.mcl-grade-bar-fill[data-progress="52"] { width: 52% !important; }
+.mcl-reveal[data-delay-idx="52"] { animation-delay: 3120ms !important; }
+.mcl-class-card[data-index="52"], .mcl-assignment[data-index="52"], .mcl-announcement[data-index="52"] { animation-delay: 2600ms !important; }
+.mcl-grade-bar-fill[data-progress="53"] { width: 53% !important; }
+.mcl-reveal[data-delay-idx="53"] { animation-delay: 3180ms !important; }
+.mcl-class-card[data-index="53"], .mcl-assignment[data-index="53"], .mcl-announcement[data-index="53"] { animation-delay: 2650ms !important; }
+.mcl-grade-bar-fill[data-progress="54"] { width: 54% !important; }
+.mcl-reveal[data-delay-idx="54"] { animation-delay: 3240ms !important; }
+.mcl-class-card[data-index="54"], .mcl-assignment[data-index="54"], .mcl-announcement[data-index="54"] { animation-delay: 2700ms !important; }
+.mcl-grade-bar-fill[data-progress="55"] { width: 55% !important; }
+.mcl-reveal[data-delay-idx="55"] { animation-delay: 3300ms !important; }
+.mcl-class-card[data-index="55"], .mcl-assignment[data-index="55"], .mcl-announcement[data-index="55"] { animation-delay: 2750ms !important; }
+.mcl-grade-bar-fill[data-progress="56"] { width: 56% !important; }
+.mcl-reveal[data-delay-idx="56"] { animation-delay: 3360ms !important; }
+.mcl-class-card[data-index="56"], .mcl-assignment[data-index="56"], .mcl-announcement[data-index="56"] { animation-delay: 2800ms !important; }
+.mcl-grade-bar-fill[data-progress="57"] { width: 57% !important; }
+.mcl-reveal[data-delay-idx="57"] { animation-delay: 3420ms !important; }
+.mcl-class-card[data-index="57"], .mcl-assignment[data-index="57"], .mcl-announcement[data-index="57"] { animation-delay: 2850ms !important; }
+.mcl-grade-bar-fill[data-progress="58"] { width: 58% !important; }
+.mcl-reveal[data-delay-idx="58"] { animation-delay: 3480ms !important; }
+.mcl-class-card[data-index="58"], .mcl-assignment[data-index="58"], .mcl-announcement[data-index="58"] { animation-delay: 2900ms !important; }
+.mcl-grade-bar-fill[data-progress="59"] { width: 59% !important; }
+.mcl-reveal[data-delay-idx="59"] { animation-delay: 3540ms !important; }
+.mcl-class-card[data-index="59"], .mcl-assignment[data-index="59"], .mcl-announcement[data-index="59"] { animation-delay: 2950ms !important; }
+.mcl-grade-bar-fill[data-progress="60"] { width: 60% !important; }
+.mcl-reveal[data-delay-idx="60"] { animation-delay: 3600ms !important; }
+.mcl-class-card[data-index="60"], .mcl-assignment[data-index="60"], .mcl-announcement[data-index="60"] { animation-delay: 3000ms !important; }
+.mcl-grade-bar-fill[data-progress="61"] { width: 61% !important; }
+.mcl-reveal[data-delay-idx="61"] { animation-delay: 3660ms !important; }
+.mcl-class-card[data-index="61"], .mcl-assignment[data-index="61"], .mcl-announcement[data-index="61"] { animation-delay: 3050ms !important; }
+.mcl-grade-bar-fill[data-progress="62"] { width: 62% !important; }
+.mcl-reveal[data-delay-idx="62"] { animation-delay: 3720ms !important; }
+.mcl-class-card[data-index="62"], .mcl-assignment[data-index="62"], .mcl-announcement[data-index="62"] { animation-delay: 3100ms !important; }
+.mcl-grade-bar-fill[data-progress="63"] { width: 63% !important; }
+.mcl-reveal[data-delay-idx="63"] { animation-delay: 3780ms !important; }
+.mcl-class-card[data-index="63"], .mcl-assignment[data-index="63"], .mcl-announcement[data-index="63"] { animation-delay: 3150ms !important; }
+.mcl-grade-bar-fill[data-progress="64"] { width: 64% !important; }
+.mcl-reveal[data-delay-idx="64"] { animation-delay: 3840ms !important; }
+.mcl-class-card[data-index="64"], .mcl-assignment[data-index="64"], .mcl-announcement[data-index="64"] { animation-delay: 3200ms !important; }
+.mcl-grade-bar-fill[data-progress="65"] { width: 65% !important; }
+.mcl-reveal[data-delay-idx="65"] { animation-delay: 3900ms !important; }
+.mcl-class-card[data-index="65"], .mcl-assignment[data-index="65"], .mcl-announcement[data-index="65"] { animation-delay: 3250ms !important; }
+.mcl-grade-bar-fill[data-progress="66"] { width: 66% !important; }
+.mcl-reveal[data-delay-idx="66"] { animation-delay: 3960ms !important; }
+.mcl-class-card[data-index="66"], .mcl-assignment[data-index="66"], .mcl-announcement[data-index="66"] { animation-delay: 3300ms !important; }
+.mcl-grade-bar-fill[data-progress="67"] { width: 67% !important; }
+.mcl-reveal[data-delay-idx="67"] { animation-delay: 4020ms !important; }
+.mcl-class-card[data-index="67"], .mcl-assignment[data-index="67"], .mcl-announcement[data-index="67"] { animation-delay: 3350ms !important; }
+.mcl-grade-bar-fill[data-progress="68"] { width: 68% !important; }
+.mcl-reveal[data-delay-idx="68"] { animation-delay: 4080ms !important; }
+.mcl-class-card[data-index="68"], .mcl-assignment[data-index="68"], .mcl-announcement[data-index="68"] { animation-delay: 3400ms !important; }
+.mcl-grade-bar-fill[data-progress="69"] { width: 69% !important; }
+.mcl-reveal[data-delay-idx="69"] { animation-delay: 4140ms !important; }
+.mcl-class-card[data-index="69"], .mcl-assignment[data-index="69"], .mcl-announcement[data-index="69"] { animation-delay: 3450ms !important; }
+.mcl-grade-bar-fill[data-progress="70"] { width: 70% !important; }
+.mcl-reveal[data-delay-idx="70"] { animation-delay: 4200ms !important; }
+.mcl-class-card[data-index="70"], .mcl-assignment[data-index="70"], .mcl-announcement[data-index="70"] { animation-delay: 3500ms !important; }
+.mcl-grade-bar-fill[data-progress="71"] { width: 71% !important; }
+.mcl-reveal[data-delay-idx="71"] { animation-delay: 4260ms !important; }
+.mcl-class-card[data-index="71"], .mcl-assignment[data-index="71"], .mcl-announcement[data-index="71"] { animation-delay: 3550ms !important; }
+.mcl-grade-bar-fill[data-progress="72"] { width: 72% !important; }
+.mcl-reveal[data-delay-idx="72"] { animation-delay: 4320ms !important; }
+.mcl-class-card[data-index="72"], .mcl-assignment[data-index="72"], .mcl-announcement[data-index="72"] { animation-delay: 3600ms !important; }
+.mcl-grade-bar-fill[data-progress="73"] { width: 73% !important; }
+.mcl-reveal[data-delay-idx="73"] { animation-delay: 4380ms !important; }
+.mcl-class-card[data-index="73"], .mcl-assignment[data-index="73"], .mcl-announcement[data-index="73"] { animation-delay: 3650ms !important; }
+.mcl-grade-bar-fill[data-progress="74"] { width: 74% !important; }
+.mcl-reveal[data-delay-idx="74"] { animation-delay: 4440ms !important; }
+.mcl-class-card[data-index="74"], .mcl-assignment[data-index="74"], .mcl-announcement[data-index="74"] { animation-delay: 3700ms !important; }
+.mcl-grade-bar-fill[data-progress="75"] { width: 75% !important; }
+.mcl-reveal[data-delay-idx="75"] { animation-delay: 4500ms !important; }
+.mcl-class-card[data-index="75"], .mcl-assignment[data-index="75"], .mcl-announcement[data-index="75"] { animation-delay: 3750ms !important; }
+.mcl-grade-bar-fill[data-progress="76"] { width: 76% !important; }
+.mcl-reveal[data-delay-idx="76"] { animation-delay: 4560ms !important; }
+.mcl-class-card[data-index="76"], .mcl-assignment[data-index="76"], .mcl-announcement[data-index="76"] { animation-delay: 3800ms !important; }
+.mcl-grade-bar-fill[data-progress="77"] { width: 77% !important; }
+.mcl-reveal[data-delay-idx="77"] { animation-delay: 4620ms !important; }
+.mcl-class-card[data-index="77"], .mcl-assignment[data-index="77"], .mcl-announcement[data-index="77"] { animation-delay: 3850ms !important; }
+.mcl-grade-bar-fill[data-progress="78"] { width: 78% !important; }
+.mcl-reveal[data-delay-idx="78"] { animation-delay: 4680ms !important; }
+.mcl-class-card[data-index="78"], .mcl-assignment[data-index="78"], .mcl-announcement[data-index="78"] { animation-delay: 3900ms !important; }
+.mcl-grade-bar-fill[data-progress="79"] { width: 79% !important; }
+.mcl-reveal[data-delay-idx="79"] { animation-delay: 4740ms !important; }
+.mcl-class-card[data-index="79"], .mcl-assignment[data-index="79"], .mcl-announcement[data-index="79"] { animation-delay: 3950ms !important; }
+.mcl-grade-bar-fill[data-progress="80"] { width: 80% !important; }
+.mcl-reveal[data-delay-idx="80"] { animation-delay: 4800ms !important; }
+.mcl-class-card[data-index="80"], .mcl-assignment[data-index="80"], .mcl-announcement[data-index="80"] { animation-delay: 4000ms !important; }
+.mcl-grade-bar-fill[data-progress="81"] { width: 81% !important; }
+.mcl-reveal[data-delay-idx="81"] { animation-delay: 4860ms !important; }
+.mcl-class-card[data-index="81"], .mcl-assignment[data-index="81"], .mcl-announcement[data-index="81"] { animation-delay: 4050ms !important; }
+.mcl-grade-bar-fill[data-progress="82"] { width: 82% !important; }
+.mcl-reveal[data-delay-idx="82"] { animation-delay: 4920ms !important; }
+.mcl-class-card[data-index="82"], .mcl-assignment[data-index="82"], .mcl-announcement[data-index="82"] { animation-delay: 4100ms !important; }
+.mcl-grade-bar-fill[data-progress="83"] { width: 83% !important; }
+.mcl-reveal[data-delay-idx="83"] { animation-delay: 4980ms !important; }
+.mcl-class-card[data-index="83"], .mcl-assignment[data-index="83"], .mcl-announcement[data-index="83"] { animation-delay: 4150ms !important; }
+.mcl-grade-bar-fill[data-progress="84"] { width: 84% !important; }
+.mcl-reveal[data-delay-idx="84"] { animation-delay: 5040ms !important; }
+.mcl-class-card[data-index="84"], .mcl-assignment[data-index="84"], .mcl-announcement[data-index="84"] { animation-delay: 4200ms !important; }
+.mcl-grade-bar-fill[data-progress="85"] { width: 85% !important; }
+.mcl-reveal[data-delay-idx="85"] { animation-delay: 5100ms !important; }
+.mcl-class-card[data-index="85"], .mcl-assignment[data-index="85"], .mcl-announcement[data-index="85"] { animation-delay: 4250ms !important; }
+.mcl-grade-bar-fill[data-progress="86"] { width: 86% !important; }
+.mcl-reveal[data-delay-idx="86"] { animation-delay: 5160ms !important; }
+.mcl-class-card[data-index="86"], .mcl-assignment[data-index="86"], .mcl-announcement[data-index="86"] { animation-delay: 4300ms !important; }
+.mcl-grade-bar-fill[data-progress="87"] { width: 87% !important; }
+.mcl-reveal[data-delay-idx="87"] { animation-delay: 5220ms !important; }
+.mcl-class-card[data-index="87"], .mcl-assignment[data-index="87"], .mcl-announcement[data-index="87"] { animation-delay: 4350ms !important; }
+.mcl-grade-bar-fill[data-progress="88"] { width: 88% !important; }
+.mcl-reveal[data-delay-idx="88"] { animation-delay: 5280ms !important; }
+.mcl-class-card[data-index="88"], .mcl-assignment[data-index="88"], .mcl-announcement[data-index="88"] { animation-delay: 4400ms !important; }
+.mcl-grade-bar-fill[data-progress="89"] { width: 89% !important; }
+.mcl-reveal[data-delay-idx="89"] { animation-delay: 5340ms !important; }
+.mcl-class-card[data-index="89"], .mcl-assignment[data-index="89"], .mcl-announcement[data-index="89"] { animation-delay: 4450ms !important; }
+.mcl-grade-bar-fill[data-progress="90"] { width: 90% !important; }
+.mcl-reveal[data-delay-idx="90"] { animation-delay: 5400ms !important; }
+.mcl-class-card[data-index="90"], .mcl-assignment[data-index="90"], .mcl-announcement[data-index="90"] { animation-delay: 4500ms !important; }
+.mcl-grade-bar-fill[data-progress="91"] { width: 91% !important; }
+.mcl-reveal[data-delay-idx="91"] { animation-delay: 5460ms !important; }
+.mcl-class-card[data-index="91"], .mcl-assignment[data-index="91"], .mcl-announcement[data-index="91"] { animation-delay: 4550ms !important; }
+.mcl-grade-bar-fill[data-progress="92"] { width: 92% !important; }
+.mcl-reveal[data-delay-idx="92"] { animation-delay: 5520ms !important; }
+.mcl-class-card[data-index="92"], .mcl-assignment[data-index="92"], .mcl-announcement[data-index="92"] { animation-delay: 4600ms !important; }
+.mcl-grade-bar-fill[data-progress="93"] { width: 93% !important; }
+.mcl-reveal[data-delay-idx="93"] { animation-delay: 5580ms !important; }
+.mcl-class-card[data-index="93"], .mcl-assignment[data-index="93"], .mcl-announcement[data-index="93"] { animation-delay: 4650ms !important; }
+.mcl-grade-bar-fill[data-progress="94"] { width: 94% !important; }
+.mcl-reveal[data-delay-idx="94"] { animation-delay: 5640ms !important; }
+.mcl-class-card[data-index="94"], .mcl-assignment[data-index="94"], .mcl-announcement[data-index="94"] { animation-delay: 4700ms !important; }
+.mcl-grade-bar-fill[data-progress="95"] { width: 95% !important; }
+.mcl-reveal[data-delay-idx="95"] { animation-delay: 5700ms !important; }
+.mcl-class-card[data-index="95"], .mcl-assignment[data-index="95"], .mcl-announcement[data-index="95"] { animation-delay: 4750ms !important; }
+.mcl-grade-bar-fill[data-progress="96"] { width: 96% !important; }
+.mcl-reveal[data-delay-idx="96"] { animation-delay: 5760ms !important; }
+.mcl-class-card[data-index="96"], .mcl-assignment[data-index="96"], .mcl-announcement[data-index="96"] { animation-delay: 4800ms !important; }
+.mcl-grade-bar-fill[data-progress="97"] { width: 97% !important; }
+.mcl-reveal[data-delay-idx="97"] { animation-delay: 5820ms !important; }
+.mcl-class-card[data-index="97"], .mcl-assignment[data-index="97"], .mcl-announcement[data-index="97"] { animation-delay: 4850ms !important; }
+.mcl-grade-bar-fill[data-progress="98"] { width: 98% !important; }
+.mcl-reveal[data-delay-idx="98"] { animation-delay: 5880ms !important; }
+.mcl-class-card[data-index="98"], .mcl-assignment[data-index="98"], .mcl-announcement[data-index="98"] { animation-delay: 4900ms !important; }
+.mcl-grade-bar-fill[data-progress="99"] { width: 99% !important; }
+.mcl-reveal[data-delay-idx="99"] { animation-delay: 5940ms !important; }
+.mcl-class-card[data-index="99"], .mcl-assignment[data-index="99"], .mcl-announcement[data-index="99"] { animation-delay: 4950ms !important; }
+.mcl-grade-bar-fill[data-progress="100"] { width: 100% !important; }
+.mcl-reveal[data-delay-idx="100"] { animation-delay: 6000ms !important; }
+.mcl-class-card[data-index="100"], .mcl-assignment[data-index="100"], .mcl-announcement[data-index="100"] { animation-delay: 5000ms !important; }
+.mcl-progress-ring-text[data-color="#059669"] { color: #059669 !important; }
+.mcl-class-dot[data-bg="#059669"] { background-color: #059669 !important; }
+.mcl-progress-ring-text[data-color="#d97706"] { color: #d97706 !important; }
+.mcl-class-dot[data-bg="#d97706"] { background-color: #d97706 !important; }
+.mcl-progress-ring-text[data-color="#dc2626"] { color: #dc2626 !important; }
+.mcl-class-dot[data-bg="#dc2626"] { background-color: #dc2626 !important; }
