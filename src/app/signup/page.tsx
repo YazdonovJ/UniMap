@@ -61,16 +61,25 @@ const SparklesIcon = () => (
 );
 
 export default function SignupPage() {
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState("");
     const cardRef = useRef<HTMLDivElement>(null);
 
     async function handleSubmit(formData: FormData) {
         setLoading(true);
         setError("");
-        const result = await signUp(formData);
-        if (result?.error) {
-            setError(result.error);
+        setSuccess("");
+        try {
+            const result = await signUp(formData);
+            if (result?.error) {
+                setError(result.error);
+                setLoading(false);
+            } else if (result?.success) {
+                setSuccess(result.message || "Please check your email.");
+                setLoading(false);
+            }
+        } catch (err) {
+            console.error("Client signup submit error:", err);
+            setError("An unexpected error occurred. Please try again.");
             setLoading(false);
         }
     }
@@ -158,6 +167,24 @@ export default function SignupPage() {
                             <div className="auth-error">
                                 <AlertCircleIcon />
                                 <span>{error}</span>
+                            </div>
+                        )}
+
+                        {success && (
+                            <div className="auth-success" style={{
+                                backgroundColor: "rgba(34, 197, 94, 0.1)",
+                                border: "1px solid rgba(34, 197, 94, 0.2)",
+                                color: "#22c55e",
+                                padding: "12px",
+                                borderRadius: "8px",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                                marginBottom: "16px",
+                                fontSize: "14px"
+                            }}>
+                                <SparklesIcon />
+                                <span>{success}</span>
                             </div>
                         )}
 

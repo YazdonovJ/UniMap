@@ -19,95 +19,107 @@ function generateSecureInviteCode() {
 }
 
 export async function signUp(formData: FormData) {
-    const supabase = await createClient();
-    const email = (formData.get("email") as string | null)?.trim();
-    const password = (formData.get("password") as string | null) || "";
-    const fullName = (formData.get("fullName") as string | null)?.trim();
-    const inviteCode = (formData.get("inviteCode") as string | null)?.trim().toUpperCase();
+    try {
+        const supabase = await createClient();
+        const email = (formData.get("email") as string | null)?.trim();
+        const password = (formData.get("password") as string | null) || "";
+        const fullName = (formData.get("fullName") as string | null)?.trim();
+        const inviteCode = (formData.get("inviteCode") as string | null)?.trim().toUpperCase();
 
-    if (!email || !password || !fullName || !inviteCode) {
-        return { error: "Please fill all required fields." };
-    }
-
-    const supabaseAdmin = createSupabaseClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
-
-    // Reserve invite atomically to prevent concurrent double-redeem.
-    const nowIso = new Date().toISOString();
-    const { data: reservedInvite, error: reserveError } = await supabaseAdmin
-        .from("invite_codes")
-        .update({ is_used: true })
-        .eq("code", inviteCode)
-        .eq("is_used", false)
-        .or(`expires_at.is.null,expires_at.gt.${nowIso}`)
-        .select("id, class_id, cohort_id")
-        .maybeSingle();
-
-    if (reserveError || !reservedInvite) {
-        return { error: "Invalid or expired invite code." };
-    }
-
-    // Sign up user
-    const { data: authData, error: signUpError } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-            data: { full_name: fullName },
-            emailRedirectTo: `${getURL()}auth/callback`,
-        },
-    });
-
-    if (signUpError) {
-        // Release reserved code on signup failure.
-        await supabaseAdmin
-            .from("invite_codes")
-            .update({ is_used: false })
-            .eq("id", reservedInvite.id)
-            .is("used_by", null);
-        return { error: signUpError.message };
-    }
-
-    // Finalize invite and profile linkage.
-    if (authData.user) {
-        const { error: finalizeInviteError } = await supabaseAdmin
-            .from("invite_codes")
-            .update({ used_by: authData.user.id })
-            .eq("id", reservedInvite.id)
-            .eq("is_used", true);
-
-        if (finalizeInviteError) {
-            return { error: "Account created, but invite linking failed. Please contact support." };
+        if (!email || !password || !fullName || !inviteCode) {
+            return { error: "Please fill all required fields." };
         }
 
-        const { error: profileError } = await supabaseAdmin
-            .from("profiles")
-            .update({
-                cohort_id: reservedInvite.cohort_id,
-                full_name: fullName,
-            })
-            .eq("id", authData.user.id);
+        const supabaseAdmin = createSupabaseClient(
+            process.env.NEXT_PUBLIC_SUPABASE_URL!,
+            process.env.SUPABASE_SERVICE_ROLE_KEY!
+        );
 
-        if (profileError) {
-            return { error: "Account created, but profile setup failed. Please contact support." };
+        // Reserve invite atomically to prevent concurrent double-redeem.
+        const nowIso = new Date().toISOString();
+        const { data: reservedInvite, error: reserveError } = await supabaseAdmin
+            .from("invite_codes")
+            .update({ is_used: true })
+            .eq("code", inviteCode)
+            .eq("is_used", false)
+            .or(`expires_at.is.null,expires_at.gt.${nowIso}`)
+            .select("id, class_id, cohort_id")
+            .maybeSingle();
+
+        if (reserveError || !reservedInvite) {
+            return { error: "Invalid or expired invite code." };
         }
 
-        if (reservedInvite.class_id) {
-            const { error: enrollmentError } = await supabaseAdmin
-                .from("class_enrollments")
-                .insert({
-                    class_id: reservedInvite.class_id,
-                    student_id: authData.user.id,
-                });
-            if (enrollmentError) {
-                console.error("Enrollment failed:", enrollmentError);
-                // We don't fail the entire signup here, but we could
+        // Sign up user
+        const { data: authData, error: signUpError } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+                data: { full_name: fullName },
+                emailRedirectTo: `${getURL()}auth/callback`,
+            },
+        });
+
+        if (signUpError) {
+            // Release reserved code on signup failure.
+            await supabaseAdmin
+                .from("invite_codes")
+                .update({ is_used: false })
+                .eq("id", reservedInvite.id)
+                .is("used_by", null);
+            return { error: signUpError.message };
+        }
+
+        // Finalize invite and profile linkage.
+        if (authData.user) {
+            const { error: finalizeInviteError } = await supabaseAdmin
+                .from("invite_codes")
+                .update({ used_by: authData.user.id })
+                .eq("id", reservedInvite.id)
+                .eq("is_used", true);
+
+            if (finalizeInviteError) {
+                return { error: "Account created, but invite linking failed. Please contact support." };
+            }
+
+            const { error: profileError } = await supabaseAdmin
+                .from("profiles")
+                .update({
+                    cohort_id: reservedInvite.cohort_id,
+                    full_name: fullName,
+                })
+                .eq("id", authData.user.id);
+
+            if (profileError) {
+                return { error: "Account created, but profile setup failed. Please contact support." };
+            }
+
+            if (reservedInvite.class_id) {
+                const { error: enrollmentError } = await supabaseAdmin
+                    .from("class_enrollments")
+                    .insert({
+                        class_id: reservedInvite.class_id,
+                        student_id: authData.user.id,
+                    });
+                if (enrollmentError) {
+                    console.error("Enrollment failed:", enrollmentError);
+                }
             }
         }
-    }
 
-    redirect("/onboarding");
+        // Optional: Check if email verification is required
+        if (authData.session === null) {
+            return { success: true, message: "Please check your email to verify your account." };
+        }
+
+        redirect("/onboarding");
+    } catch (err: unknown) {
+        if (err && typeof err === "object" && "digest" in err && typeof (err as { digest: unknown }).digest === "string" && ((err as { digest: string }).digest.startsWith("NEXT_REDIRECT") || (err as { digest: string }).digest.startsWith("NEXT_NOT_FOUND"))) {
+            throw err;
+        }
+        console.error("Signup error:", err);
+        return { error: "A server error occurred during signup. Please try again later." };
+    }
 }
 
 export async function signIn(formData: FormData) {
