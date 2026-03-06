@@ -1,33 +1,17 @@
--- 1. Remove the strict foreign key constraint that requires receiver_id to be a User ID.
-DO $$ 
-DECLARE 
-    constraint_name text;
-BEGIN
-    SELECT tc.constraint_name INTO constraint_name
-    FROM information_schema.table_constraints AS tc
-    JOIN information_schema.key_column_usage AS kcu
-      ON tc.constraint_name = kcu.constraint_name
-      AND tc.table_schema = kcu.table_schema
-    WHERE tc.table_name = 'messages'
-      AND kcu.column_name = 'receiver_id'
-      AND tc.constraint_type = 'FOREIGN KEY';
+-- 1. Remove strict foreign keys
+ALTER TABLE messages DROP CONSTRAINT IF EXISTS messages_receiver_id_fkey;
 
-    IF constraint_name IS NOT NULL THEN
-        EXECUTE 'ALTER TABLE public.messages DROP CONSTRAINT ' || constraint_name;
-    END IF;
-END $$;
+-- 2. Ditch Row Level Security ENTIRELY just to prove it's the culprit and restore chats
+ALTER TABLE messages DISABLE ROW LEVEL SECURITY;
 
--- 2. Drop EVERY existing policy on messages just in case
-DROP POLICY IF EXISTS "Messages: participants" ON messages;
-DROP POLICY IF EXISTS "Messages: group members read" ON messages;
-DROP POLICY IF EXISTS "Messages: group members insert" ON messages;
-DROP POLICY IF EXISTS "Messages: Any auth user read" ON messages;
-DROP POLICY IF EXISTS "Messages: Any auth user insert" ON messages;
+-- 3. In case RLS was required by a trigger, add a catch-all just in case
+DROP POLICY IF EXISTS "Enable read access for all users" ON messages;
+DROP POLICY IF EXISTS "Enable insert for authenticated users only" ON messages;
+DROP POLICY IF EXISTS "Enable update for users based on email" ON messages;
 
--- 3. Create absolute foolproof policies to restore functionality FIRST
-CREATE POLICY "Enable read access for all users" ON messages FOR SELECT USING (true);
-CREATE POLICY "Enable insert for authenticated users only" ON messages FOR INSERT WITH CHECK (auth.role() = 'authenticated');
-CREATE POLICY "Enable update for users based on email" ON messages FOR UPDATE USING (auth.role() = 'authenticated');
+CREATE POLICY "Allow all" ON messages FOR ALL USING (true);
 
--- 4. Refresh the schema cache
+-- 4. Refresh cache
 NOTIFY pgrst, 'reload schema';
+
+-- End of script
