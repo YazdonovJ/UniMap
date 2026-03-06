@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS milestones (
 -- ============================================================
 CREATE TABLE IF NOT EXISTS messages (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  sender_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  sender_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
   receiver_id UUID NOT NULL,
   content TEXT NOT NULL,
   is_read BOOLEAN DEFAULT FALSE,
