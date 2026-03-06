@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   webpack: (config, { dev, isServer }) => {
     return config;
   },
+  turbopack: {},
 };
 
 export default nextConfig;
