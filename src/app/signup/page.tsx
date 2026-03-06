@@ -61,6 +61,8 @@ const SparklesIcon = () => (
 );
 
 export default function SignupPage() {
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState("");
     const cardRef = useRef<HTMLDivElement>(null);
 
