@@ -241,7 +241,7 @@ export default function MessagesClient({ userId, contacts: initialContacts, clas
             // Map the joined profile name into sender_name for rendering
             const mappedData = (data || []).map((msg: MessageItem & { sender?: { full_name: string } }) => ({
                 ...msg,
-                sender_name: msg.sender?.full_name,
+                sender_name: msg.sender_id === userId ? "You" : (msg.sender?.full_name || "Unknown"),
             }));
 
             setGroupMessages(mappedData);
@@ -668,7 +668,7 @@ export default function MessagesClient({ userId, contacts: initialContacts, clas
                             {/* Messages */}
                             <div className="msg-messages">
                                 {filteredActiveMessages.map((msg, idx) => {
-                                    const isMine = msg.sender_id === userId;
+                                    const isMine = msg.sender_id === userId || msg.sender_name === "You";
                                     const timeDivider = shouldShowTimeDivider(filteredActiveMessages, idx);
                                     const msgReactions = reactions[msg.id] || {};
                                     const isGroup = activeChat.type === "group";
