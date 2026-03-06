@@ -230,10 +230,17 @@ export default function MessagesClient({ userId, contacts: initialContacts, clas
         async function fetchGroupMessages() {
             const { data } = await supabase
                 .from("messages")
-                .select("*")
+                .select("*, sender:profiles!sender_id(full_name)")
                 .eq("receiver_id", groupId)
                 .order("created_at", { ascending: true });
-            setGroupMessages(data || []);
+
+            // Map the joined profile name into sender_name for rendering
+            const mappedData = (data || []).map((msg: MessageItem & { sender?: { full_name: string } }) => ({
+                ...msg,
+                sender_name: msg.sender?.full_name,
+            }));
+
+            setGroupMessages(mappedData);
         }
         fetchGroupMessages();
 
@@ -652,7 +659,7 @@ export default function MessagesClient({ userId, contacts: initialContacts, clas
                                             <div className={`msg-bubble-wrap ${isMine ? "msg-bubble-wrap--mine" : isGroup ? "msg-bubble-wrap--group-theirs" : "msg-bubble-wrap--theirs"}`}>
                                                 {isGroup && !isMine && (
                                                     <div className="msg-bubble-group-avatar">
-                                                        {getContactName(msg.sender_id).charAt(0).toUpperCase()}
+                                                        {(msg.sender_name || getContactName(msg.sender_id)).charAt(0).toUpperCase()}
                                                     </div>
                                                 )}
                                                 <div className={`msg-bubble ${isMine ? "msg-bubble--mine" : "msg-bubble--theirs"}`}>
