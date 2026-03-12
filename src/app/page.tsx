@@ -80,6 +80,8 @@ const TOP_UNIVERSITIES = [
   "Imperial College London",
 ] as const;
 
+const SAT_LOGIN_URL = "https://www.unimap.space";
+
 function resolveIcon(iconName: LandingIconName) {
   return ICON_BY_NAME[iconName];
 }
@@ -337,9 +339,9 @@ function TopNav({
           </ul>
 
           <div className="nav-right">
-            <Link href="/login" className="nav-login-link">
-              Sign In
-            </Link>
+            <a href={SAT_LOGIN_URL} className="nav-login-link">
+              Log In for SAT
+            </a>
             <Link href="/signup" className="btn btn-primary nav-cta-btn js-magnet" data-magnet-strength="0.08">
               Start UNIMAP <ArrowRight className="h-4 w-4" />
             </Link>
@@ -367,9 +369,9 @@ function TopNav({
               ))}
             </div>
             <div className="mobile-actions">
-              <Link href="/login" className="mobile-login-btn">
-                Sign In
-              </Link>
+              <a href={SAT_LOGIN_URL} className="mobile-login-btn">
+                Log In for SAT
+              </a>
               <Link href="/signup" className="mobile-primary-btn">
                 Start UNIMAP
               </Link>
@@ -411,9 +413,9 @@ function HeroSection() {
             <Link href="/signup" className="btn btn-primary btn-lg js-magnet" data-magnet-strength="0.07">
               Start UNIMAP <ArrowRight className="h-5 w-5" />
             </Link>
-            <Link href="/login" className="btn btn-ghost btn-lg">
-              <Users className="h-5 w-5" /> Sign In
-            </Link>
+            <a href={SAT_LOGIN_URL} className="btn btn-ghost btn-lg">
+              <Users className="h-5 w-5" /> Log In for SAT
+            </a>
           </div>
 
           <div className="hero-chips" role="list" aria-label="Platform capabilities">
