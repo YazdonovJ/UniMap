@@ -80,7 +80,7 @@ const TOP_UNIVERSITIES = [
   "Imperial College London",
 ] as const;
 
-const SAT_LOGIN_URL = "https://www.unimap.space";
+const SAT_LOGIN_URL = "https://unimap.space/login";
 
 function resolveIcon(iconName: LandingIconName) {
   return ICON_BY_NAME[iconName];
