@@ -363,9 +363,10 @@ export default function MessagesClient({ userId, contacts: initialContacts, clas
                     });
                 }
             }
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error("Message send error:", err);
-            alert(`Failed to send message: ${err.message || JSON.stringify(err)}`);
+            const message = err instanceof Error ? err.message : JSON.stringify(err);
+            alert(`Failed to send message: ${message}`);
         } finally {
             setNewMessage("");
             setSending(false);

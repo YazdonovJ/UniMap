@@ -77,6 +77,24 @@ function stripHtml(html: string) {
     return html.replace(/<[^>]*>/g, "");
 }
 
+function escapeHtml(value: string) {
+    return value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function toSafePrintableHtml(html: string) {
+    const plain = stripHtml(html).trim();
+    if (!plain) return "<p></p>";
+    return plain
+        .split(/\n{2,}/)
+        .map((paragraph) => `<p>${escapeHtml(paragraph).replace(/\n/g, "<br/>")}</p>`)
+        .join("");
+}
+
 function getPlainPreview(content: string, len = 120) {
     const plain = stripHtml(content);
     return plain.length > len ? plain.slice(0, len) + "…" : plain;
@@ -619,8 +637,18 @@ export default function EssaysClient({ initialEssays, userId, initialVersions }:
         if (!editingEssay) return;
         const printWin = window.open('', '_blank');
         if (printWin) {
-            printWin.document.write(`<!DOCTYPE html><html><head><title>${editingEssay.title}</title><style>body{font-family:Georgia,"Times New Roman",serif;max-width:680px;margin:40px auto;padding:20px;line-height:1.8;color:#1a1a1a;font-size:12pt}h1{font-size:1.3em;margin-bottom:0.3em;border-bottom:1px solid #ddd;padding-bottom:8px}.meta{font-size:0.85em;color:#666;margin-bottom:1.5em}p{margin:0.5em 0}</style></head><body><h1>${editingEssay.title}</h1><div class="meta">${countWords(stripHtml(editorContent))} words · ${new Date().toLocaleDateString()}</div>${editorContent}<script>setTimeout(()=>{window.print();window.close()},300)<\/script></body></html>`);
+            const safeTitle = escapeHtml(editingEssay.title || "Untitled Essay");
+            const safeBody = toSafePrintableHtml(editorContent);
+            const meta = `${countWords(stripHtml(editorContent))} words · ${new Date().toLocaleDateString()}`;
+            const safeMeta = escapeHtml(meta);
+
+            printWin.document.write(`<!DOCTYPE html><html><head><title>${safeTitle}</title><style>body{font-family:Georgia,"Times New Roman",serif;max-width:680px;margin:40px auto;padding:20px;line-height:1.8;color:#1a1a1a;font-size:12pt}h1{font-size:1.3em;margin-bottom:0.3em;border-bottom:1px solid #ddd;padding-bottom:8px}.meta{font-size:0.85em;color:#666;margin-bottom:1.5em}p{margin:0.5em 0}</style></head><body><h1>${safeTitle}</h1><div class="meta">${safeMeta}</div>${safeBody}</body></html>`);
             printWin.document.close();
+            printWin.focus();
+            setTimeout(() => {
+                printWin.print();
+                printWin.close();
+            }, 300);
         }
     }
 

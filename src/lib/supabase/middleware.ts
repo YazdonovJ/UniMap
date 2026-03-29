@@ -1,6 +1,9 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+const protectedPaths = ["/dashboard", "/onboarding", "/essays", "/activities", "/portfolio", "/analytics", "/messages"];
+const authPaths = ["/login", "/signup"];
+
 export async function updateSession(request: NextRequest) {
     let supabaseResponse = NextResponse.next({
         request,
@@ -29,16 +32,17 @@ export async function updateSession(request: NextRequest) {
         }
     );
 
+    const isProtectedRoute = protectedPaths.some((path) =>
+        request.nextUrl.pathname.startsWith(path)
+    );
+    const isAuthRoute = authPaths.some((path) =>
+        request.nextUrl.pathname.startsWith(path)
+    );
+
     try {
         const {
             data: { user },
         } = await supabase.auth.getUser();
-
-        // Protected routes - redirect to login if not authenticated
-        const protectedPaths = ["/dashboard", "/onboarding", "/essays", "/activities", "/portfolio", "/analytics", "/messages"];
-        const isProtectedRoute = protectedPaths.some((path) =>
-            request.nextUrl.pathname.startsWith(path)
-        );
 
         if (isProtectedRoute && !user) {
             const url = request.nextUrl.clone();
@@ -46,19 +50,18 @@ export async function updateSession(request: NextRequest) {
             return NextResponse.redirect(url);
         }
 
-        // Redirect logged-in users away from auth pages
-        const authPaths = ["/login", "/signup"];
-        const isAuthRoute = authPaths.some((path) =>
-            request.nextUrl.pathname.startsWith(path)
-        );
-
         if (isAuthRoute && user) {
             const url = request.nextUrl.clone();
             url.pathname = "/dashboard";
             return NextResponse.redirect(url);
         }
     } catch {
-        // Supabase is unreachable - allow request to continue without auth checks
+        if (isProtectedRoute) {
+            const url = request.nextUrl.clone();
+            url.pathname = "/login";
+            url.searchParams.set("error", "Authentication service is temporarily unavailable.");
+            return NextResponse.redirect(url);
+        }
     }
 
     return supabaseResponse;

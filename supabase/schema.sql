@@ -420,7 +420,10 @@ CREATE POLICY "Cohorts: admin/counselor can insert" ON cohorts FOR INSERT WITH C
 CREATE POLICY "Invite codes: admin/counselor can manage" ON invite_codes FOR ALL USING (
   EXISTS (SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('admin', 'counselor'))
 );
-CREATE POLICY "Invite codes: anyone can read unused" ON invite_codes FOR SELECT USING (true);
+CREATE POLICY "Invite codes: anyone can read unused" ON invite_codes FOR SELECT USING (
+  is_used = false
+  AND (expires_at IS NULL OR expires_at > NOW())
+);
 
 -- ACADEMIC PROFILES: Own data only, counselors can read their cohort
 CREATE POLICY "Academic: own data" ON academic_profiles FOR ALL USING (auth.uid() = user_id);
@@ -455,27 +458,69 @@ CREATE POLICY "Milestones: counselor read" ON milestones FOR SELECT USING (
   )
 );
 
--- MESSAGES: Sender and receiver can access
-CREATE POLICY "Messages: participants" ON messages FOR ALL USING (
-  auth.uid() = sender_id OR auth.uid() = receiver_id
+-- MESSAGES: Direct message participants can read
+CREATE POLICY "Messages: dm participants read" ON messages FOR SELECT USING (
+  EXISTS (
+    SELECT 1
+    FROM profiles p
+    WHERE p.id = messages.receiver_id
+      AND (auth.uid() = messages.sender_id OR auth.uid() = messages.receiver_id)
+  )
+);
+
+-- MESSAGES: Direct message sender can insert
+CREATE POLICY "Messages: dm sender insert" ON messages FOR INSERT WITH CHECK (
+  auth.uid() = sender_id
+  AND EXISTS (
+    SELECT 1
+    FROM profiles p
+    WHERE p.id = messages.receiver_id
+  )
+);
+
+-- MESSAGES: Direct message participants can update (e.g. read state)
+CREATE POLICY "Messages: dm participants update" ON messages FOR UPDATE USING (
+  EXISTS (
+    SELECT 1
+    FROM profiles p
+    WHERE p.id = messages.receiver_id
+      AND (auth.uid() = messages.sender_id OR auth.uid() = messages.receiver_id)
+  )
+) WITH CHECK (
+  EXISTS (
+    SELECT 1
+    FROM profiles p
+    WHERE p.id = messages.receiver_id
+      AND (auth.uid() = messages.sender_id OR auth.uid() = messages.receiver_id)
+  )
+);
+
+-- MESSAGES: Direct message sender can delete
+CREATE POLICY "Messages: dm sender delete" ON messages FOR DELETE USING (
+  auth.uid() = sender_id
+  AND EXISTS (
+    SELECT 1
+    FROM profiles p
+    WHERE p.id = messages.receiver_id
+  )
 );
 
 -- MESSAGES: Group members can read class messages
-CREATE POLICY "Messages: group members read" ON messages FOR SELECT USING (
+CREATE POLICY "Messages: class members read" ON messages FOR SELECT USING (
   EXISTS (
     SELECT 1 FROM classes c
     WHERE c.id = messages.receiver_id
     AND (
       c.teacher_id = auth.uid()
       OR EXISTS (
-        SELECT 1 FROM class_enrollments ce 
-        WHERE ce.class_id = c.id 
-        AND ce.student_id = auth.uid() 
+        SELECT 1 FROM class_enrollments ce
+        WHERE ce.class_id = c.id
+        AND ce.student_id = auth.uid()
         AND ce.status = 'active'
       )
       OR EXISTS (
-        SELECT 1 FROM profiles p 
-        WHERE p.id = auth.uid() 
+        SELECT 1 FROM profiles p
+        WHERE p.id = auth.uid()
         AND p.role IN ('admin', 'counselor')
       )
     )
@@ -483,20 +528,25 @@ CREATE POLICY "Messages: group members read" ON messages FOR SELECT USING (
 );
 
 -- MESSAGES: Group members can send class messages
-CREATE POLICY "Messages: group members insert" ON messages FOR INSERT WITH CHECK (
-  auth.uid() = sender_id AND (
-    -- Normal DM check (participants policy handles most of this but since we are overriding we need both or just let participants handle DMs and this handle groups)
-    -- Actually `FOR ALL` in participants covers `INSERT` but only if auth.uid() = sender_id (which it is)
-    -- BUT it also requires `OR auth.uid() = receiver_id`. In INSERT context, WITH CHECK requires the condition to be true for the NEW row.
-    -- For DMs, auth.uid() = sender_id is true, so "participants" allows it.
-    -- For Groups, auth.uid() = sender_id is true, but receiver is a class. We don't need a special INSERT policy if "participants" allows it just on sender_id.
-    -- WAIT: "participants" is FOR ALL USING(auth.uid()=sender_id OR ...). For INSERT, USING becomes WITH CHECK.
-    -- So ANY user can insert ANY message as long as they are the sender. Therefore group message INSERT is ALREADY NOT blocked by RLS.
-    -- But let's verify if there is an issue with group messages inserting... Ah! The client explicitly handles `data` returning from `insert().select().single()`.
-    -- If SELECT is blocked, `select()` after `insert()` returns nothing, causing the client `if (data)` to fail to broadcast or add to state!
-    -- Since we fixed SELECT in the previous step, INSERT + SELECT should work now.
-    -- I will just leave a dummy line here to confirm my thought process, no actual replacement needed for this block, I will cancel this tool call conceptually or just replace with exact same text.
-    true
+CREATE POLICY "Messages: class members insert" ON messages FOR INSERT WITH CHECK (
+  auth.uid() = sender_id
+  AND EXISTS (
+    SELECT 1 FROM classes c
+    WHERE c.id = messages.receiver_id
+    AND (
+      c.teacher_id = auth.uid()
+      OR EXISTS (
+        SELECT 1 FROM class_enrollments ce
+        WHERE ce.class_id = c.id
+        AND ce.student_id = auth.uid()
+        AND ce.status = 'active'
+      )
+      OR EXISTS (
+        SELECT 1 FROM profiles p
+        WHERE p.id = auth.uid()
+        AND p.role IN ('admin', 'counselor')
+      )
+    )
   )
 );
 

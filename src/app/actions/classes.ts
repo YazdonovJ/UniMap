@@ -4,6 +4,9 @@ import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 
 type ActorRole = "admin" | "counselor" | "alumni";
+type AttendanceStatus = "present" | "absent" | "late" | "excused";
+type AnnouncementPriority = "info" | "warning" | "urgent";
+type AssignmentType = "homework" | "essay" | "project" | "quiz" | "exam" | "other";
 
 type ActorContext =
     | {
@@ -49,6 +52,91 @@ async function ensureClassAccess(classId: string, actor: Exclude<ActorContext, n
     return { classRow };
 }
 
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const CLASS_COLOR_REGEX = /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i;
+const ASSIGNMENT_TYPES = new Set<AssignmentType>(["homework", "essay", "project", "quiz", "exam", "other"]);
+const ANNOUNCEMENT_PRIORITIES = new Set<AnnouncementPriority>(["info", "warning", "urgent"]);
+const ATTENDANCE_STATUSES = new Set<AttendanceStatus>(["present", "absent", "late", "excused"]);
+
+function asTrimmedString(value: unknown, maxLength: number) {
+    if (typeof value !== "string") return "";
+    return value.trim().slice(0, maxLength);
+}
+
+function asBoolean(value: unknown) {
+    if (typeof value === "boolean") return value;
+    if (typeof value === "string") return value.toLowerCase() === "true";
+    if (typeof value === "number") return value === 1;
+    return false;
+}
+
+function asSafeColor(value: unknown) {
+    const color = asTrimmedString(value, 7);
+    return CLASS_COLOR_REGEX.test(color) ? color : "#6366f1";
+}
+
+function asSafeSchedule(value: unknown) {
+    if (!value || typeof value !== "object" || Array.isArray(value)) return {};
+    const normalized: Record<string, string> = {};
+    for (const [key, rawVal] of Object.entries(value)) {
+        if (typeof rawVal !== "string") continue;
+        const safeKey = asTrimmedString(key, 40);
+        const safeVal = asTrimmedString(rawVal, 200);
+        if (!safeKey || !safeVal) continue;
+        normalized[safeKey] = safeVal;
+    }
+    return normalized;
+}
+
+function asSafeDateTime(value: unknown) {
+    if (typeof value !== "string") return null;
+    const parsed = new Date(value);
+    if (Number.isNaN(parsed.getTime())) return null;
+    return parsed.toISOString();
+}
+
+function asSafeHttpUrl(value: unknown) {
+    if (typeof value !== "string") return { url: null as string | null, error: null as string | null };
+    const trimmed = value.trim();
+    if (!trimmed) return { url: null as string | null, error: null as string | null };
+    try {
+        const parsed = new URL(trimmed);
+        if (parsed.protocol !== "https:" && parsed.protocol !== "http:") {
+            return { url: null as string | null, error: "File URL must use http or https." };
+        }
+        return { url: parsed.toString(), error: null as string | null };
+    } catch {
+        return { url: null as string | null, error: "Invalid file URL." };
+    }
+}
+
+function buildClassUpdatePayload(updates: Record<string, unknown>) {
+    const payload: Record<string, unknown> = {};
+
+    if ("name" in updates) {
+        const name = asTrimmedString(updates.name, 120);
+        if (!name) return { error: "Class name is required." };
+        payload.name = name;
+    }
+
+    if ("subject" in updates) payload.subject = asTrimmedString(updates.subject, 120);
+    if ("description" in updates) payload.description = asTrimmedString(updates.description, 2000);
+    if ("schedule" in updates) payload.schedule = asSafeSchedule(updates.schedule);
+
+    if ("max_capacity" in updates) {
+        payload.max_capacity = Math.min(500, Math.max(1, Math.floor(Number(updates.max_capacity) || 1)));
+    }
+
+    if ("color" in updates) payload.color = asSafeColor(updates.color);
+    if ("is_active" in updates) payload.is_active = asBoolean(updates.is_active);
+
+    if (Object.keys(payload).length === 0) {
+        return { error: "No valid class fields provided for update." };
+    }
+
+    return { payload };
+}
+
 // ──────────────────────────────────────────
 // CLASS CRUD
 // ──────────────────────────────────────────
@@ -65,18 +153,18 @@ export async function createClass(formData: {
     if (!actor) return { error: "Not authenticated" };
     if (!["admin", "counselor"].includes(actor.role)) return { error: "Forbidden" };
 
-    const safeName = formData.name?.trim();
+    const safeName = asTrimmedString(formData.name, 120);
     if (!safeName) return { error: "Class name is required." };
     const safeCapacity = Math.min(500, Math.max(1, Math.floor(Number(formData.max_capacity) || 1)));
 
     const insertPayload: Record<string, unknown> = {
         teacher_id: actor.userId,
         name: safeName,
-        subject: formData.subject?.trim() || "",
-        description: formData.description?.trim() || "",
-        schedule: formData.schedule,
+        subject: asTrimmedString(formData.subject, 120),
+        description: asTrimmedString(formData.description, 2000),
+        schedule: asSafeSchedule(formData.schedule),
         max_capacity: safeCapacity,
-        color: formData.color,
+        color: asSafeColor(formData.color),
     };
 
     if (actor.role === "counselor" && actor.cohortId) {
@@ -97,13 +185,20 @@ export async function createClass(formData: {
 export async function updateClass(classId: string, updates: Record<string, unknown>) {
     const { supabase, actor } = await getActorContext();
     if (!actor) return { error: "Not authenticated" };
+    if (!classId || !UUID_REGEX.test(classId)) return { error: "Invalid class id." };
+    if (!updates || typeof updates !== "object" || Array.isArray(updates)) {
+        return { error: "Invalid update payload." };
+    }
 
     const access = await ensureClassAccess(classId, actor, supabase);
     if ("error" in access) return access;
 
+    const safeUpdate = buildClassUpdatePayload(updates);
+    if ("error" in safeUpdate) return safeUpdate;
+
     const { error } = await supabase
         .from("classes")
-        .update({ ...updates, updated_at: new Date().toISOString() })
+        .update({ ...safeUpdate.payload, updated_at: new Date().toISOString() })
         .eq("id", classId);
     if (error) return { error: error.message };
     revalidatePath("/dashboard/classes");
@@ -236,8 +331,27 @@ export async function createAssignment(formData: {
     const access = await ensureClassAccess(formData.class_id, actor, supabase);
     if ("error" in access) return access;
 
+    const safeTitle = asTrimmedString(formData.title, 180);
+    if (!safeTitle) return { error: "Assignment title is required." };
+
+    const safeType = asTrimmedString(formData.type, 24).toLowerCase() as AssignmentType;
+    if (!ASSIGNMENT_TYPES.has(safeType)) {
+        return { error: "Invalid assignment type." };
+    }
+
+    const safeDueDate = asSafeDateTime(formData.due_date);
+    if (!safeDueDate) return { error: "Invalid assignment due date." };
+
+    const safeMaxPoints = Math.min(1000, Math.max(1, Math.floor(Number(formData.max_points) || 100)));
+
     const { error } = await supabase.from("assignments").insert({
-        ...formData,
+        class_id: formData.class_id,
+        title: safeTitle,
+        description: asTrimmedString(formData.description, 4000),
+        type: safeType,
+        max_points: safeMaxPoints,
+        due_date: safeDueDate,
+        allow_late: asBoolean(formData.allow_late),
         teacher_id: actor.userId,
     });
     if (error) return { error: error.message };
@@ -304,11 +418,18 @@ export async function submitAssignment(assignmentId: string, content: string, fi
         return { error: "Late submissions are not allowed for this assignment." };
     }
 
+    const safeContent = asTrimmedString(content, 25000);
+    const safeFile = asSafeHttpUrl(fileUrl);
+    if (safeFile.error) return { error: safeFile.error };
+    if (!safeContent && !safeFile.url) {
+        return { error: "Submission content or file URL is required." };
+    }
+
     const { error } = await supabase.from("assignment_submissions").upsert({
         assignment_id: assignmentId,
         student_id: actor.userId,
-        content,
-        file_url: fileUrl,
+        content: safeContent,
+        file_url: safeFile.url,
         status: "submitted",
         submitted_at: new Date().toISOString(),
     }, { onConflict: "assignment_id,student_id" });
@@ -329,16 +450,35 @@ export async function markAttendance(classId: string, date: string, records: { s
     const access = await ensureClassAccess(classId, actor, supabase);
     if ("error" in access) return access;
 
-    const allowedStatuses = new Set(["present", "absent", "late", "excused"]);
+    const safeDate = asTrimmedString(date, 10);
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(safeDate)) {
+        return { error: "Invalid attendance date." };
+    }
 
-    const rows = records.map(r => ({
-        class_id: classId,
-        student_id: r.student_id,
-        date,
-        status: allowedStatuses.has(r.status) ? r.status : "absent",
-        note: r.note || null,
-        marked_by: actor.userId,
-    }));
+    if (!Array.isArray(records) || records.length === 0) {
+        return { error: "Attendance records are required." };
+    }
+    if (records.length > 500) {
+        return { error: "Too many attendance records in one request." };
+    }
+
+    const rows = records
+        .filter((record) => typeof record?.student_id === "string" && UUID_REGEX.test(record.student_id))
+        .map((record) => {
+            const normalizedStatus = asTrimmedString(record.status, 20).toLowerCase() as AttendanceStatus;
+            return {
+                class_id: classId,
+                student_id: record.student_id,
+                date: safeDate,
+                status: ATTENDANCE_STATUSES.has(normalizedStatus) ? normalizedStatus : "absent",
+                note: asTrimmedString(record.note, 1000) || null,
+                marked_by: actor.userId,
+            };
+        });
+
+    if (rows.length === 0) {
+        return { error: "No valid attendance records were provided." };
+    }
 
     const { error } = await supabase.from("attendance_records").upsert(rows, {
         onConflict: "class_id,student_id,date",
@@ -365,8 +505,21 @@ export async function createAnnouncement(formData: {
     const access = await ensureClassAccess(formData.class_id, actor, supabase);
     if ("error" in access) return access;
 
+    const safeTitle = asTrimmedString(formData.title, 180);
+    const safeContent = asTrimmedString(formData.content, 5000);
+    if (!safeTitle || !safeContent) {
+        return { error: "Announcement title and content are required." };
+    }
+    const safePriority = asTrimmedString(formData.priority, 20).toLowerCase() as AnnouncementPriority;
+    if (!ANNOUNCEMENT_PRIORITIES.has(safePriority)) {
+        return { error: "Invalid announcement priority." };
+    }
+
     const { error } = await supabase.from("class_announcements").insert({
-        ...formData,
+        class_id: formData.class_id,
+        title: safeTitle,
+        content: safeContent,
+        priority: safePriority,
         author_id: actor.userId,
     });
     if (error) return { error: error.message };
