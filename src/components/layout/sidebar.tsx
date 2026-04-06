@@ -181,6 +181,7 @@ export function Sidebar({ userRole = "alumni", userName = "Student", collapsed, 
                                 key={item.href}
                                 href={item.href}
                                 onClick={() => setMobileOpen(false)}
+                                prefetch={true}
                                 className={`dash-nav-item ${isActive ? "dash-nav-item--active" : ""}`}
                             >
                                 <Icon />
